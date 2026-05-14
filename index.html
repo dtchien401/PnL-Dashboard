@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=1600, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes" />
 <title>California Wellness Group | Beyond Activ Asia 2026</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +29,7 @@ html{
 }
 
 body{
+  min-width:1600px;
   background:#f3f3f3;
   font-family:"Inter", Arial, sans-serif;
   color:#111;
@@ -40,6 +41,7 @@ body{
   flex-direction:column;
   gap:42px;
   padding:42px 0 120px;
+  min-width:1600px;
 }
 
 .slide{
@@ -408,14 +410,6 @@ h1.hero{
   font-weight:700;
   cursor:pointer;
   box-shadow:0 12px 30px rgba(227,6,19,.22);
-}
-
-@media(max-width:1700px){
-  .slide{
-    width:94vw;
-    height:52.875vw;
-  }
-  .deck{gap:28px}
 }
 
 @media print{
