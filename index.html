@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=1600, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
 <title>California Wellness Group | Beyond Activ Asia 2026</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,6 @@ html{
 }
 
 body{
-  min-width:1600px;
   background:#f3f3f3;
   font-family:"Inter", Arial, sans-serif;
   color:#111;
@@ -41,7 +40,6 @@ body{
   flex-direction:column;
   gap:42px;
   padding:42px 0 120px;
-  min-width:1600px;
 }
 
 .slide{
@@ -482,6 +480,73 @@ h1.hero{
 .logo{
   mix-blend-mode:multiply;
 }
+
+/* Mobile fit-to-screen presentation mode */
+:root{
+  --slide-w:1600;
+  --slide-h:900;
+  --scale:1;
+}
+
+.deck{
+  align-items:center;
+}
+
+.slide{
+  transform-origin:top center;
+}
+
+@media (max-width: 1700px){
+  body{
+    overflow-x:hidden;
+  }
+
+  .deck{
+    display:block;
+    padding:24px 0 150px;
+  }
+
+  .slide{
+    width:1600px !important;
+    height:900px !important;
+    max-width:none !important;
+    transform:scale(var(--scale));
+    margin:0 auto;
+    display:none;
+  }
+
+  .slide.active{
+    display:block;
+  }
+}
+
+@media (max-width: 600px){
+  .deck{
+    padding-top:18px;
+    padding-bottom:120px;
+  }
+
+  .nav{
+    left:50%;
+    right:auto;
+    transform:translateX(-50%);
+    bottom:34px;
+    width:max-content;
+  }
+
+  .nav button{
+    padding:12px 16px;
+    font-size:14px;
+    border-radius:14px;
+  }
+
+  .counter{
+    left:18px;
+    bottom:25px;
+    font-size:12px;
+  }
+}
+
 </style>
 </head>
 
@@ -833,6 +898,7 @@ function showSlide(index){
   }
 
   updateProgress();
+  fitDeckToViewport();
 }
 
 function nextStep(){
@@ -883,6 +949,30 @@ document.addEventListener('keydown', (e) => {
     window.print();
   }
 });
+
+
+function fitDeckToViewport(){
+  const slideW = 1600;
+  const slideH = 900;
+  const gapTop = window.innerWidth <= 600 ? 18 : 24;
+  const availableW = Math.min(window.innerWidth - 24, slideW);
+  const scale = availableW / slideW;
+  document.documentElement.style.setProperty('--scale', scale);
+
+  document.querySelectorAll('.slide').forEach(slide => {
+    slide.style.marginBottom = ((slideH * scale) - slideH) + 'px';
+  });
+
+  const active = document.querySelector('.slide.active');
+  if(active){
+    const deck = document.querySelector('.deck');
+    deck.style.minHeight = (slideH * scale + 150) + 'px';
+  }
+}
+
+window.addEventListener('resize', fitDeckToViewport);
+window.addEventListener('orientationchange', () => setTimeout(fitDeckToViewport, 250));
+fitDeckToViewport();
 
 showSlide(0);
 </script>
