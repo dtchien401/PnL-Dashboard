@@ -617,6 +617,48 @@ h1.hero{
 .slide[data-theme="dark"] .card h3,.slide[data-theme="dark"] .arch h3{color:#fff;}
 @media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important;}}
 
+
+/* Fullscreen presentation mode */
+body.presentation-fullscreen{
+  background:#000;
+}
+
+body.presentation-fullscreen .deck{
+  padding:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+body.presentation-fullscreen .slide{
+  border-radius:0;
+  box-shadow:none;
+}
+
+body.presentation-fullscreen .nav{
+  opacity:.16;
+  transition:opacity .25s ease;
+}
+
+body.presentation-fullscreen .nav:hover{
+  opacity:1;
+}
+
+body.presentation-fullscreen .counter{
+  color:rgba(255,255,255,.55);
+}
+
+.nav button.fullscreen-btn{
+  background:#111;
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.nav button.fullscreen-btn.active{
+  background:var(--red);
+  border-color:transparent;
+}
+
 </style>
 </head>
 
@@ -931,6 +973,7 @@ h1.hero{
 <div class="nav">
   <button onclick="prevSlide()">Prev</button>
   <button onclick="nextStep()">Next</button>
+  <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()">Full Screen</button>
   <button onclick="window.print()">Export PDF</button>
 </div>
 
@@ -1026,19 +1069,24 @@ document.addEventListener('keydown', (e) => {
 function fitDeckToViewport(){
   const slideW = 1600;
   const slideH = 900;
-  const gapTop = window.innerWidth <= 600 ? 18 : 24;
-  const availableW = Math.min(window.innerWidth - 24, slideW);
-  const scale = availableW / slideW;
+  const isFull = document.body.classList.contains('presentation-fullscreen');
+
+  const safeW = isFull ? window.innerWidth : Math.min(window.innerWidth - 24, slideW);
+  const safeH = isFull ? window.innerHeight : window.innerHeight - 150;
+
+  let scale = isFull
+    ? Math.min(safeW / slideW, safeH / slideH)
+    : Math.min(safeW / slideW, 1);
+
   document.documentElement.style.setProperty('--scale', scale);
 
   document.querySelectorAll('.slide').forEach(slide => {
-    slide.style.marginBottom = ((slideH * scale) - slideH) + 'px';
+    slide.style.marginBottom = isFull ? '0px' : ((slideH * scale) - slideH) + 'px';
   });
 
-  const active = document.querySelector('.slide.active');
-  if(active){
-    const deck = document.querySelector('.deck');
-    deck.style.minHeight = (slideH * scale + 150) + 'px';
+  const deck = document.querySelector('.deck');
+  if(deck){
+    deck.style.minHeight = isFull ? '100vh' : (slideH * scale + 150) + 'px';
   }
 }
 
@@ -1046,6 +1094,39 @@ window.addEventListener('resize', fitDeckToViewport);
 window.addEventListener('orientationchange', () => setTimeout(fitDeckToViewport, 250));
 fitDeckToViewport();
 
+
+
+function toggleFullscreen(){
+  const root = document.documentElement;
+  const btn = document.getElementById('fullscreenBtn');
+
+  if(!document.fullscreenElement){
+    root.requestFullscreen?.().then(() => {
+      document.body.classList.add('presentation-fullscreen');
+      btn.textContent = 'Exit Full Screen';
+      btn.classList.add('active');
+      fitDeckToViewport();
+    }).catch(() => {
+      document.body.classList.toggle('presentation-fullscreen');
+      btn.textContent = document.body.classList.contains('presentation-fullscreen') ? 'Exit Full Screen' : 'Full Screen';
+      btn.classList.toggle('active', document.body.classList.contains('presentation-fullscreen'));
+      fitDeckToViewport();
+    });
+  }else{
+    document.exitFullscreen?.();
+  }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  const btn = document.getElementById('fullscreenBtn');
+  const isFull = !!document.fullscreenElement;
+  document.body.classList.toggle('presentation-fullscreen', isFull);
+  if(btn){
+    btn.textContent = isFull ? 'Exit Full Screen' : 'Full Screen';
+    btn.classList.toggle('active', isFull);
+  }
+  setTimeout(fitDeckToViewport, 120);
+});
 
 /* Animated ecosystem particle network */
 const canvasStates = new WeakMap();
