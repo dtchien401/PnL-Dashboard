@@ -881,6 +881,99 @@ body.mobile-pseudo-fullscreen .slide{
   transform-origin:center center !important;
 }
 
+
+/* FINAL MOBILE FULLSCREEN FIX
+   - Landscape: cover-fill for immersive full screen
+   - Portrait: contain-fit so the full 16:9 slide is visible and centered
+   - No layout reflow, no font distortion */
+body.mobile-pseudo-fullscreen{
+  background:#000 !important;
+  overflow:hidden !important;
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  touch-action:manipulation;
+}
+
+body.mobile-pseudo-fullscreen .deck{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  min-height:100vh !important;
+  padding:0 !important;
+  margin:0 !important;
+  display:block !important;
+  overflow:hidden !important;
+}
+
+body.mobile-pseudo-fullscreen .slide{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  width:1600px !important;
+  height:900px !important;
+  margin:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  transform-origin:center center !important;
+  display:none !important;
+}
+
+body.mobile-pseudo-fullscreen .slide.active{
+  display:block !important;
+}
+
+/* Landscape mobile: fill the screen like video cover mode */
+@media (orientation: landscape){
+  body.mobile-pseudo-fullscreen .slide.active{
+    transform:translate(-50%, -50%) scale(var(--mobile-landscape-scale)) !important;
+  }
+}
+
+/* Portrait mobile: keep the whole slide visible, centered, no cropping */
+@media (orientation: portrait){
+  body.mobile-pseudo-fullscreen .slide.active{
+    transform:translate(-50%, -50%) scale(var(--mobile-portrait-scale)) !important;
+  }
+}
+
+body.mobile-pseudo-fullscreen .nav{
+  left:50% !important;
+  right:auto !important;
+  bottom:max(14px, env(safe-area-inset-bottom)) !important;
+  transform:translateX(-50%) !important;
+  opacity:.34;
+  transition:opacity .25s ease;
+}
+
+body.mobile-pseudo-fullscreen .nav:hover,
+body.mobile-pseudo-fullscreen .nav:active{
+  opacity:1;
+}
+
+body.mobile-pseudo-fullscreen .nav button{
+  padding:11px 14px !important;
+  font-size:13px !important;
+  border-radius:999px !important;
+}
+
+body.mobile-pseudo-fullscreen .counter{
+  left:14px !important;
+  bottom:max(18px, env(safe-area-inset-bottom)) !important;
+  color:rgba(255,255,255,.65) !important;
+}
+
+body.mobile-pseudo-fullscreen .mobile-fullscreen-hint{
+  top:max(10px, env(safe-area-inset-top)) !important;
+}
+
+/* remove forced rotate overlay in final mobile mode */
+body.mobile-pseudo-fullscreen .rotate-device{
+  display:none !important;
+}
+
 </style>
 </head>
 
@@ -1297,47 +1390,49 @@ function fitDeckToViewport(){
   const slideW = 1600;
   const slideH = 900;
 
-  const isFull =
-    document.body.classList.contains('presentation-fullscreen') ||
-    document.body.classList.contains('mobile-pseudo-fullscreen');
+  const desktopFull = document.body.classList.contains('presentation-fullscreen');
+  const mobileFull = document.body.classList.contains('mobile-pseudo-fullscreen');
+  const isFull = desktopFull || mobileFull;
 
-  const isDesktopFull = document.body.classList.contains('presentation-fullscreen');
-  const isPortrait = window.innerHeight > window.innerWidth;
-  const isMobile = window.innerWidth < 1000;
-
-  // visualViewport gives the real usable size under browser zoom / mobile browser UI.
   const vv = window.visualViewport;
   const viewportW = vv ? vv.width : window.innerWidth;
   const viewportH = vv ? vv.height : window.innerHeight;
 
+  const isPortrait = viewportH >= viewportW;
+  const isMobile = viewportW < 1000 || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
   let scale = 1;
-  let coverScale = 1;
-  let portraitScale = 1;
   let fullscreenScale = 1;
+  let mobileLandscapeScale = 1;
+  let mobilePortraitScale = 1;
 
-  if(isFull){
-    // contain scale: always keep the entire 16:9 slide visible.
-    const safety = isDesktopFull ? 0.985 : 0.98;
-    scale = Math.min(viewportW / slideW, viewportH / slideH) * safety;
+  if(desktopFull){
+    // Desktop fullscreen must always contain the whole slide.
+    fullscreenScale = Math.min(viewportW / slideW, viewportH / slideH) * 0.985;
+    scale = fullscreenScale;
+  }else if(mobileFull){
+    // Landscape: fill screen like video cover mode.
+    mobileLandscapeScale = Math.max(viewportW / slideW, viewportH / slideH) * 1.002;
 
-    // cover scale only for mobile landscape when we intentionally want immersive fill.
-    coverScale = Math.max(viewportW / slideW, viewportH / slideH) * 0.995;
+    // Portrait: show full slide without cropping. This is the only way to keep all content visible.
+    mobilePortraitScale = Math.min(viewportW / slideW, viewportH / slideH) * 0.985;
 
-    // portrait phones get a controlled zoom, but still calculated from real viewport.
-    portraitScale = Math.max(scale * 1.14, (viewportW / slideW) * 0.98);
-
+    scale = isPortrait ? mobilePortraitScale : mobileLandscapeScale;
     fullscreenScale = scale;
   }else{
+    // Normal web mode: fit to available width.
     scale = Math.min((viewportW - 24) / slideW, 1);
-    coverScale = scale;
-    portraitScale = scale;
     fullscreenScale = scale;
+    mobileLandscapeScale = scale;
+    mobilePortraitScale = scale;
   }
 
   document.documentElement.style.setProperty('--scale', scale);
-  document.documentElement.style.setProperty('--cover-scale', coverScale);
-  document.documentElement.style.setProperty('--portrait-scale', portraitScale);
   document.documentElement.style.setProperty('--fullscreen-scale', fullscreenScale);
+  document.documentElement.style.setProperty('--mobile-landscape-scale', mobileLandscapeScale);
+  document.documentElement.style.setProperty('--mobile-portrait-scale', mobilePortraitScale);
+  document.documentElement.style.setProperty('--cover-scale', mobileLandscapeScale);
+  document.documentElement.style.setProperty('--portrait-scale', mobilePortraitScale);
 
   document.querySelectorAll('.slide').forEach(slide => {
     slide.style.marginBottom = isFull ? '0px' : ((slideH * scale) - slideH) + 'px';
@@ -1348,16 +1443,15 @@ function fitDeckToViewport(){
     deck.style.minHeight = isFull ? '100vh' : (slideH * scale + 150) + 'px';
   }
 
+  // No forced rotate overlay; portrait and landscape both work.
   const rotate = document.getElementById('rotateDevice');
-  if(
-    rotate &&
-    document.body.classList.contains('mobile-pseudo-fullscreen') &&
-    isPortrait &&
-    isMobile
-  ){
-    rotate.classList.add('show');
-  }else if(rotate){
-    rotate.classList.remove('show');
+  if(rotate) rotate.classList.remove('show');
+
+  const hint = document.getElementById('mobileHint');
+  if(hint && mobileFull){
+    hint.textContent = isPortrait
+      ? 'Portrait fit mode: full slide visible.'
+      : 'Landscape immersive mode: full screen.';
   }
 }
 
@@ -1368,7 +1462,11 @@ if(window.visualViewport){
 }
 
 window.addEventListener('resize', fitDeckToViewport);
-window.addEventListener('orientationchange', () => setTimeout(fitDeckToViewport, 250));
+window.addEventListener('orientationchange', () => {
+  setTimeout(fitDeckToViewport, 100);
+  setTimeout(fitDeckToViewport, 350);
+  setTimeout(fitDeckToViewport, 800);
+});
 fitDeckToViewport();
 
 
@@ -1405,7 +1503,9 @@ function exitPseudoFullscreen(){
     btn.textContent = 'Full Screen';
     btn.classList.remove('active');
   }
-  setTimeout(fitDeckToViewport, 120);
+  setTimeout(fitDeckToViewport, 80);
+  setTimeout(fitDeckToViewport, 300);
+  setTimeout(fitDeckToViewport, 700);
 }
 
 async function toggleFullscreen(){
