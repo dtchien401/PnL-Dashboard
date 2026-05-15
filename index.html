@@ -820,6 +820,67 @@ body.mobile-pseudo-fullscreen .slide{
   100%{transform:rotate(0deg);}
 }
 
+
+/* DESKTOP FULLSCREEN CONTAIN FIX
+   Prevents right-side cropping at browser zoom 100%.
+   Fullscreen uses transform scale and centers the 1600x900 slide exactly inside viewport. */
+body.presentation-fullscreen{
+  width:100vw;
+  height:100vh;
+  overflow:hidden !important;
+}
+
+body.presentation-fullscreen .deck{
+  position:fixed;
+  inset:0;
+  width:100vw !important;
+  height:100vh !important;
+  min-height:100vh !important;
+  padding:0 !important;
+  margin:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+body.presentation-fullscreen .slide{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  width:1600px !important;
+  height:900px !important;
+  margin:0 !important;
+  transform:translate(-50%, -50%) scale(var(--fullscreen-scale)) !important;
+  transform-origin:center center !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+
+body.presentation-fullscreen .slide:not(.active){
+  display:none !important;
+}
+
+body.presentation-fullscreen .slide.active{
+  display:block !important;
+}
+
+/* Same safe centering for mobile pseudo fullscreen when needed */
+body.mobile-pseudo-fullscreen .deck{
+  position:fixed;
+  inset:0;
+  width:100vw !important;
+  height:100vh !important;
+  overflow:hidden !important;
+}
+
+body.mobile-pseudo-fullscreen .slide{
+  left:50% !important;
+  top:50% !important;
+  margin:0 !important;
+  transform-origin:center center !important;
+}
+
 </style>
 </head>
 
@@ -1240,34 +1301,43 @@ function fitDeckToViewport(){
     document.body.classList.contains('presentation-fullscreen') ||
     document.body.classList.contains('mobile-pseudo-fullscreen');
 
+  const isDesktopFull = document.body.classList.contains('presentation-fullscreen');
   const isPortrait = window.innerHeight > window.innerWidth;
   const isMobile = window.innerWidth < 1000;
+
+  // visualViewport gives the real usable size under browser zoom / mobile browser UI.
+  const vv = window.visualViewport;
+  const viewportW = vv ? vv.width : window.innerWidth;
+  const viewportH = vv ? vv.height : window.innerHeight;
 
   let scale = 1;
   let coverScale = 1;
   let portraitScale = 1;
+  let fullscreenScale = 1;
 
   if(isFull){
-    scale = Math.min(window.innerWidth / slideW, window.innerHeight / slideH);
+    // contain scale: always keep the entire 16:9 slide visible.
+    const safety = isDesktopFull ? 0.985 : 0.98;
+    scale = Math.min(viewportW / slideW, viewportH / slideH) * safety;
 
-    // cover-style scaling for immersive feel
-    coverScale = Math.max(
-      window.innerWidth / slideW,
-      window.innerHeight / slideH
-    );
+    // cover scale only for mobile landscape when we intentionally want immersive fill.
+    coverScale = Math.max(viewportW / slideW, viewportH / slideH) * 0.995;
 
-    // portrait phones get slightly more aggressive zoom
-    portraitScale = Math.max(scale * 1.18, window.innerWidth / slideW);
+    // portrait phones get a controlled zoom, but still calculated from real viewport.
+    portraitScale = Math.max(scale * 1.14, (viewportW / slideW) * 0.98);
 
+    fullscreenScale = scale;
   }else{
-    scale = Math.min((window.innerWidth - 24) / slideW, 1);
+    scale = Math.min((viewportW - 24) / slideW, 1);
     coverScale = scale;
     portraitScale = scale;
+    fullscreenScale = scale;
   }
 
   document.documentElement.style.setProperty('--scale', scale);
   document.documentElement.style.setProperty('--cover-scale', coverScale);
   document.documentElement.style.setProperty('--portrait-scale', portraitScale);
+  document.documentElement.style.setProperty('--fullscreen-scale', fullscreenScale);
 
   document.querySelectorAll('.slide').forEach(slide => {
     slide.style.marginBottom = isFull ? '0px' : ((slideH * scale) - slideH) + 'px';
@@ -1278,7 +1348,6 @@ function fitDeckToViewport(){
     deck.style.minHeight = isFull ? '100vh' : (slideH * scale + 150) + 'px';
   }
 
-  // rotate hint
   const rotate = document.getElementById('rotateDevice');
   if(
     rotate &&
@@ -1290,6 +1359,12 @@ function fitDeckToViewport(){
   }else if(rotate){
     rotate.classList.remove('show');
   }
+}
+
+
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize', fitDeckToViewport);
+  window.visualViewport.addEventListener('scroll', fitDeckToViewport);
 }
 
 window.addEventListener('resize', fitDeckToViewport);
@@ -1320,6 +1395,7 @@ function enterPseudoFullscreen(){
   window.scrollTo(0,0);
   showMobileHint();
   setTimeout(fitDeckToViewport, 120);
+  setTimeout(fitDeckToViewport, 350);
 }
 
 function exitPseudoFullscreen(){
