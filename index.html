@@ -659,6 +659,167 @@ body.presentation-fullscreen .counter{
   border-color:transparent;
 }
 
+
+/* Mobile-safe pseudo fullscreen fallback */
+body.mobile-pseudo-fullscreen{
+  background:#000;
+  overflow:hidden;
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+}
+
+body.mobile-pseudo-fullscreen .deck{
+  padding:0 !important;
+  min-height:100vh !important;
+  width:100vw;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+body.mobile-pseudo-fullscreen .slide{
+  border-radius:0 !important;
+  box-shadow:none !important;
+  margin:0 auto !important;
+}
+
+body.mobile-pseudo-fullscreen .nav{
+  opacity:.18;
+}
+
+body.mobile-pseudo-fullscreen .nav:hover{
+  opacity:1;
+}
+
+body.mobile-pseudo-fullscreen .counter{
+  color:rgba(255,255,255,.6);
+}
+
+body.mobile-pseudo-fullscreen .progress{
+  bottom:0;
+}
+
+/* hint banner only appears briefly after mobile fullscreen */
+.mobile-fullscreen-hint{
+  position:fixed;
+  left:50%;
+  top:16px;
+  transform:translateX(-50%);
+  z-index:2000;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(0,0,0,.72);
+  color:#fff;
+  font-size:12px;
+  letter-spacing:.2px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+  backdrop-filter:blur(10px);
+}
+
+.mobile-fullscreen-hint.show{
+  opacity:1;
+}
+
+
+/* SMART CINEMATIC FULLSCREEN */
+body.presentation-fullscreen,
+body.mobile-pseudo-fullscreen{
+  background:#000;
+}
+
+body.presentation-fullscreen .deck,
+body.mobile-pseudo-fullscreen .deck{
+  width:100vw;
+  height:100vh;
+  padding:0 !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+body.presentation-fullscreen .slide,
+body.mobile-pseudo-fullscreen .slide{
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+
+/* landscape mobile = true immersive */
+@media (max-width: 1200px) and (orientation: landscape){
+  body.mobile-pseudo-fullscreen .slide{
+    transform:scale(var(--cover-scale)) !important;
+  }
+
+  body.mobile-pseudo-fullscreen .nav{
+    bottom:18px;
+  }
+}
+
+/* portrait mobile */
+@media (max-width: 900px) and (orientation: portrait){
+  body.mobile-pseudo-fullscreen .slide{
+    transform:scale(var(--portrait-scale)) !important;
+  }
+
+  body.mobile-pseudo-fullscreen .nav{
+    bottom:22px;
+  }
+
+  body.mobile-pseudo-fullscreen .mobile-fullscreen-hint{
+    top:12px;
+  }
+}
+
+.rotate-device{
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  background:rgba(0,0,0,.92);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:18px;
+  color:#fff;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s ease;
+}
+
+.rotate-device.show{
+  opacity:1;
+}
+
+.rotate-icon{
+  width:72px;
+  height:72px;
+  border:2px solid rgba(255,255,255,.35);
+  border-radius:18px;
+  position:relative;
+  animation:rotatePhone 2s ease-in-out infinite;
+}
+
+.rotate-icon::after{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border-radius:10px;
+  border:2px solid rgba(255,255,255,.55);
+}
+
+@keyframes rotatePhone{
+  0%{transform:rotate(0deg);}
+  35%{transform:rotate(0deg);}
+  50%{transform:rotate(90deg);}
+  85%{transform:rotate(90deg);}
+  100%{transform:rotate(0deg);}
+}
+
 </style>
 </head>
 
@@ -967,6 +1128,8 @@ body.presentation-fullscreen .counter{
 
 </div>
 
+<div class="mobile-fullscreen-hint" id="mobileHint">Presentation mode enabled.</div>
+<div class="rotate-device" id="rotateDevice"><div class="rotate-icon"></div><div>Rotate device for immersive presentation</div></div>
 <div class="progress" id="progress"></div>
 <div class="counter" id="counter"></div>
 
@@ -1063,22 +1226,48 @@ document.addEventListener('keydown', (e) => {
   if(e.key.toLowerCase() === 'p'){
     window.print();
   }
+  if(e.key === 'Escape' && document.body.classList.contains('mobile-pseudo-fullscreen')){
+    exitPseudoFullscreen();
+  }
 });
 
 
 function fitDeckToViewport(){
   const slideW = 1600;
   const slideH = 900;
-  const isFull = document.body.classList.contains('presentation-fullscreen');
 
-  const safeW = isFull ? window.innerWidth : Math.min(window.innerWidth - 24, slideW);
-  const safeH = isFull ? window.innerHeight : window.innerHeight - 150;
+  const isFull =
+    document.body.classList.contains('presentation-fullscreen') ||
+    document.body.classList.contains('mobile-pseudo-fullscreen');
 
-  let scale = isFull
-    ? Math.min(safeW / slideW, safeH / slideH)
-    : Math.min(safeW / slideW, 1);
+  const isPortrait = window.innerHeight > window.innerWidth;
+  const isMobile = window.innerWidth < 1000;
+
+  let scale = 1;
+  let coverScale = 1;
+  let portraitScale = 1;
+
+  if(isFull){
+    scale = Math.min(window.innerWidth / slideW, window.innerHeight / slideH);
+
+    // cover-style scaling for immersive feel
+    coverScale = Math.max(
+      window.innerWidth / slideW,
+      window.innerHeight / slideH
+    );
+
+    // portrait phones get slightly more aggressive zoom
+    portraitScale = Math.max(scale * 1.18, window.innerWidth / slideW);
+
+  }else{
+    scale = Math.min((window.innerWidth - 24) / slideW, 1);
+    coverScale = scale;
+    portraitScale = scale;
+  }
 
   document.documentElement.style.setProperty('--scale', scale);
+  document.documentElement.style.setProperty('--cover-scale', coverScale);
+  document.documentElement.style.setProperty('--portrait-scale', portraitScale);
 
   document.querySelectorAll('.slide').forEach(slide => {
     slide.style.marginBottom = isFull ? '0px' : ((slideH * scale) - slideH) + 'px';
@@ -1088,6 +1277,19 @@ function fitDeckToViewport(){
   if(deck){
     deck.style.minHeight = isFull ? '100vh' : (slideH * scale + 150) + 'px';
   }
+
+  // rotate hint
+  const rotate = document.getElementById('rotateDevice');
+  if(
+    rotate &&
+    document.body.classList.contains('mobile-pseudo-fullscreen') &&
+    isPortrait &&
+    isMobile
+  ){
+    rotate.classList.add('show');
+  }else if(rotate){
+    rotate.classList.remove('show');
+  }
 }
 
 window.addEventListener('resize', fitDeckToViewport);
@@ -1096,22 +1298,74 @@ fitDeckToViewport();
 
 
 
-function toggleFullscreen(){
-  const root = document.documentElement;
+
+function isMobileDevice(){
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+}
+
+function showMobileHint(){
+  const hint = document.getElementById('mobileHint');
+  if(!hint) return;
+  hint.classList.add('show');
+  setTimeout(() => hint.classList.remove('show'), 2600);
+}
+
+function enterPseudoFullscreen(){
+  document.body.classList.add('mobile-pseudo-fullscreen');
+  const btn = document.getElementById('fullscreenBtn');
+  if(btn){
+    btn.textContent = 'Exit Full Screen';
+    btn.classList.add('active');
+  }
+  window.scrollTo(0,0);
+  showMobileHint();
+  setTimeout(fitDeckToViewport, 120);
+}
+
+function exitPseudoFullscreen(){
+  document.body.classList.remove('mobile-pseudo-fullscreen');
+  const btn = document.getElementById('fullscreenBtn');
+  if(btn){
+    btn.textContent = 'Full Screen';
+    btn.classList.remove('active');
+  }
+  setTimeout(fitDeckToViewport, 120);
+}
+
+async function toggleFullscreen(){
   const btn = document.getElementById('fullscreenBtn');
 
+  // iOS Safari / many in-app browsers do not allow Fullscreen API for normal HTML.
+  // Use a reliable pseudo-fullscreen presentation mode instead.
+  if(isMobileDevice()){
+    if(document.body.classList.contains('mobile-pseudo-fullscreen')){
+      exitPseudoFullscreen();
+    }else{
+      enterPseudoFullscreen();
+    }
+    return;
+  }
+
+  const root = document.documentElement;
+
   if(!document.fullscreenElement){
-    root.requestFullscreen?.().then(() => {
+    try{
+      await root.requestFullscreen();
       document.body.classList.add('presentation-fullscreen');
-      btn.textContent = 'Exit Full Screen';
-      btn.classList.add('active');
+      if(btn){
+        btn.textContent = 'Exit Full Screen';
+        btn.classList.add('active');
+      }
       fitDeckToViewport();
-    }).catch(() => {
+    }catch(err){
       document.body.classList.toggle('presentation-fullscreen');
-      btn.textContent = document.body.classList.contains('presentation-fullscreen') ? 'Exit Full Screen' : 'Full Screen';
-      btn.classList.toggle('active', document.body.classList.contains('presentation-fullscreen'));
+      const active = document.body.classList.contains('presentation-fullscreen');
+      if(btn){
+        btn.textContent = active ? 'Exit Full Screen' : 'Full Screen';
+        btn.classList.toggle('active', active);
+      }
       fitDeckToViewport();
-    });
+    }
   }else{
     document.exitFullscreen?.();
   }
@@ -1121,12 +1375,13 @@ document.addEventListener('fullscreenchange', () => {
   const btn = document.getElementById('fullscreenBtn');
   const isFull = !!document.fullscreenElement;
   document.body.classList.toggle('presentation-fullscreen', isFull);
-  if(btn){
+  if(btn && !isMobileDevice()){
     btn.textContent = isFull ? 'Exit Full Screen' : 'Full Screen';
     btn.classList.toggle('active', isFull);
   }
   setTimeout(fitDeckToViewport, 120);
 });
+
 
 /* Animated ecosystem particle network */
 const canvasStates = new WeakMap();
@@ -1187,6 +1442,23 @@ function applyStagger(){
   });
 }
 applyStagger();
+
+
+/* Double tap anywhere to toggle fullscreen on mobile */
+let lastTap = 0;
+
+document.addEventListener('touchend', (e) => {
+  const now = Date.now();
+  const diff = now - lastTap;
+
+  if(diff < 280 && diff > 0){
+    if(window.innerWidth < 1000){
+      toggleFullscreen();
+    }
+  }
+
+  lastTap = now;
+});
 
 showSlide(0);
 </script>
