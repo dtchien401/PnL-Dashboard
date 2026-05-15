@@ -547,6 +547,76 @@ h1.hero{
   }
 }
 
+
+/* AMAZING UPGRADE: animated ecosystem layer + premium motion */
+.ecosystem-canvas{
+  position:absolute; inset:0; width:100%; height:100%;
+  z-index:4; pointer-events:none; opacity:.34; mix-blend-mode:multiply;
+}
+.slide::after{
+  content:""; position:absolute; inset:0; z-index:4; pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(227,6,19,.08), transparent 26%),
+    radial-gradient(circle at 86% 76%, rgba(227,6,19,.12), transparent 28%);
+}
+.slide.active .logo{animation:logoIn .75s ease both;}
+@keyframes logoIn{from{opacity:0; transform:translateY(-10px);}to{opacity:.92; transform:translateY(0);}}
+
+.reveal{transition:opacity .65s ease, transform .65s cubic-bezier(.2,.8,.2,1), filter .65s ease; filter:blur(6px);}
+.reveal.show{filter:blur(0);}
+.big-title.reveal.show,.hero.reveal.show,.statement.reveal.show,.quote.reveal.show{animation:titleRise .8s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes titleRise{from{letter-spacing:-10px;}to{letter-spacing:inherit;}}
+
+.card,.arch,.loop-box,.pill{transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;}
+.card:hover,.arch:hover,.loop-box:hover,.pill:hover{
+  transform:translateY(-6px); border-color:rgba(227,6,19,.22);
+  box-shadow:0 24px 50px rgba(227,6,19,.10);
+}
+.card h3,.arch h3{display:flex; align-items:center; gap:14px;}
+.card h3::before,.arch h3::before{
+  content:""; width:34px; height:34px; flex:0 0 34px; border-radius:50%;
+  background:radial-gradient(circle at center, rgba(227,6,19,.20), transparent 58%),
+             linear-gradient(135deg, rgba(227,6,19,.95), rgba(255,43,43,.35));
+  box-shadow:0 0 22px rgba(227,6,19,.22);
+}
+.pill{position:relative; overflow:hidden; padding-left:42px;}
+.pill::before{
+  content:""; position:absolute; left:18px; top:50%; transform:translateY(-50%);
+  width:8px; height:8px; border-radius:50%; background:var(--red2);
+  box-shadow:0 0 14px rgba(227,6,19,.55);
+}
+.quote::after{
+  content:""; display:block; width:0; height:3px;
+  background:linear-gradient(90deg, transparent, var(--red2), transparent);
+  margin:38px auto 0; transition:width .8s ease .25s;
+}
+.quote.show::after{width:72%;}
+
+/* dark cinematic chapter slides */
+.slide[data-theme="dark"]{background:#050505; color:#fff;}
+.slide[data-theme="dark"] .shade{
+  background:
+    radial-gradient(circle at 82% 20%, rgba(227,6,19,.18), transparent 34%),
+    linear-gradient(90deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.68) 46%, rgba(0,0,0,.46) 100%);
+}
+.slide[data-theme="dark"] .logo{filter:brightness(0) invert(1); mix-blend-mode:normal;}
+.slide[data-theme="dark"] .chapter,
+.slide[data-theme="dark"] .body,
+.slide[data-theme="dark"] .bullet,
+.slide[data-theme="dark"] .card p,
+.slide[data-theme="dark"] .arch p,
+.slide[data-theme="dark"] .loop-step,
+.slide[data-theme="dark"] .footer,
+.slide[data-theme="dark"] .hero-sub{color:rgba(255,255,255,.72);}
+.slide[data-theme="dark"] .card,
+.slide[data-theme="dark"] .arch,
+.slide[data-theme="dark"] .loop-box,
+.slide[data-theme="dark"] .pill{
+  background:rgba(10,10,10,.48); border-color:rgba(255,255,255,.12); color:#fff;
+}
+.slide[data-theme="dark"] .card h3,.slide[data-theme="dark"] .arch h3{color:#fff;}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important;}}
+
 </style>
 </head>
 
@@ -557,7 +627,7 @@ h1.hero{
 <!-- 01 COVER -->
 <section class="slide active">
   <img class="bg" src="background 7.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
 
   <div class="content" style="left:78px;top:135px;">
@@ -572,7 +642,7 @@ h1.hero{
 <!-- 02 TENSION -->
 <section class="slide">
   <img class="bg" src="background 0.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">01 · The Collapse of the Old Model</div>
 
@@ -591,7 +661,7 @@ h1.hero{
 <!-- 03 OLD VS NEW -->
 <section class="slide">
   <img class="bg" src="background 5.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">02 · The Industry Shift</div>
 
@@ -625,7 +695,7 @@ h1.hero{
 <!-- 04 THE BIG QUESTION -->
 <section class="slide">
   <img class="bg" src="background 8.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">03 · The New Member Contract</div>
 
@@ -645,7 +715,7 @@ h1.hero{
 <!-- 05 HUMAN NEEDS -->
 <section class="slide">
   <img class="bg" src="background 4.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">04 · Human Needs, Not Equipment Categories</div>
 
@@ -668,9 +738,9 @@ h1.hero{
 </section>
 
 <!-- 06 TREND != STRATEGY -->
-<section class="slide">
+<section class="slide" data-theme="dark">
   <img class="bg" src="background 6.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">05 · Operator Dilemma</div>
 
@@ -688,7 +758,7 @@ h1.hero{
 <!-- 07 TREND FILTER -->
 <section class="slide">
   <img class="bg" src="background 3.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">06 · The Trend Filter</div>
 
@@ -711,7 +781,7 @@ h1.hero{
 <!-- 08 TRENDS BY ROLE -->
 <section class="slide">
   <img class="bg" src="background 1.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">07 · Not All Trends Serve The Same Role</div>
 
@@ -732,7 +802,7 @@ h1.hero{
 <!-- 09 ARCHITECTURE -->
 <section class="slide">
   <img class="bg" src="background 2.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">08 · The New Product Architecture</div>
 
@@ -752,7 +822,7 @@ h1.hero{
 <!-- 10 WHAT TO REMOVE -->
 <section class="slide">
   <img class="bg" src="background 7.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">09 · What We Remove</div>
 
@@ -776,9 +846,9 @@ h1.hero{
 </section>
 
 <!-- 11 CAPEX TRAP -->
-<section class="slide">
+<section class="slide" data-theme="dark">
   <img class="bg" src="background 0.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">10 · The Capex Trap</div>
 
@@ -810,7 +880,7 @@ h1.hero{
 <!-- 12 COMMUNITY -->
 <section class="slide">
   <img class="bg" src="background 8.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
   <div class="chapter">11 · Community Is Infrastructure</div>
 
@@ -833,9 +903,9 @@ h1.hero{
 </section>
 
 <!-- 13 FINAL -->
-<section class="slide">
+<section class="slide" data-theme="dark">
   <img class="bg" src="background 5.png" />
-  <div class="shade"></div><div class="glow"></div>
+  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
   <img class="logo" src="logo.png" />
 
   <div class="center">
@@ -893,6 +963,7 @@ function showSlide(index){
   if(reveals.length){
     setTimeout(() => {
       reveals[0].classList.add('show');
+      Array.from(reveals[0].children || []).forEach(child => child.classList.add('show'));
       currentReveal = 1;
     }, 80);
   }
@@ -906,6 +977,7 @@ function nextStep(){
 
   if(currentReveal < reveals.length){
     reveals[currentReveal].classList.add('show');
+    Array.from(reveals[currentReveal].children || []).forEach(child => child.classList.add('show'));
     currentReveal++;
     return;
   }
@@ -973,6 +1045,67 @@ function fitDeckToViewport(){
 window.addEventListener('resize', fitDeckToViewport);
 window.addEventListener('orientationchange', () => setTimeout(fitDeckToViewport, 250));
 fitDeckToViewport();
+
+
+/* Animated ecosystem particle network */
+const canvasStates = new WeakMap();
+function initCanvas(canvas){
+  const ctx = canvas.getContext('2d');
+  const slide = canvas.closest('.slide');
+  const isDark = slide && slide.dataset.theme === 'dark';
+  const state = {ctx, points:[], isDark};
+  const count = isDark ? 62 : 48;
+  for(let i=0;i<count;i++){
+    state.points.push({
+      x:Math.random()*1600, y:Math.random()*900,
+      vx:(Math.random()-.5)*0.35, vy:(Math.random()-.5)*0.35
+    });
+  }
+  canvas.width=1600; canvas.height=900;
+  canvasStates.set(canvas,state);
+}
+function drawCanvas(canvas){
+  const s = canvasStates.get(canvas); if(!s) return;
+  const ctx=s.ctx; ctx.clearRect(0,0,1600,900);
+  const maxDist=s.isDark?150:125;
+  for(const p of s.points){
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<-40)p.x=1640; if(p.x>1640)p.x=-40;
+    if(p.y<-40)p.y=940; if(p.y>940)p.y=-40;
+  }
+  for(let i=0;i<s.points.length;i++){
+    for(let j=i+1;j<s.points.length;j++){
+      const a=s.points[i], b=s.points[j];
+      const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<maxDist){
+        const alpha=(1-d/maxDist)*(s.isDark?.28:.18);
+        ctx.strokeStyle='rgba(227,6,19,'+alpha+')';
+        ctx.lineWidth=s.isDark?1.2:1;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      }
+    }
+  }
+  for(const p of s.points){
+    const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,10);
+    grd.addColorStop(0,'rgba(227,6,19,'+(s.isDark?.85:.48)+')');
+    grd.addColorStop(1,'rgba(227,6,19,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(p.x,p.y,10,0,Math.PI*2); ctx.fill();
+  }
+}
+function animateCanvas(){
+  const active=document.querySelector('.slide.active .ecosystem-canvas');
+  if(active) drawCanvas(active);
+  requestAnimationFrame(animateCanvas);
+}
+document.querySelectorAll('.ecosystem-canvas').forEach(initCanvas);
+animateCanvas();
+
+function applyStagger(){
+  document.querySelectorAll('.card-grid,.architecture,.pill-row,.loop').forEach(group=>{
+    Array.from(group.children).forEach((el,i)=>{el.style.transitionDelay=(i*65)+'ms';});
+  });
+}
+applyStagger();
 
 showSlide(0);
 </script>
