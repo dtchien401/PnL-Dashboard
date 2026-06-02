@@ -172,8 +172,10 @@
     <button class="tab-btn" onclick="showTab('revenue',this)" data-i18n="tabRevenue">Revenue Intelligence</button>
     <button class="tab-btn" onclick="showTab('cost',this)" data-i18n="tabCost">Cost Intelligence</button>
     <button class="tab-btn" onclick="showTab('people',this)" data-i18n="tabPeople">People Productivity</button>
+    <button class="tab-btn" onclick="showTab('lifecycle',this)" data-i18n="tabLifecycle">Customer Lifecycle</button>
     <button class="tab-btn" onclick="showTab('ranking',this)" data-i18n="tabRanking">Club Ranking</button>
     <button class="tab-btn" onclick="showTab('actions',this)" data-i18n="tabActions">Action Plan</button>
+    <button class="tab-btn" onclick="showTab('executive',this)" data-i18n="tabExecutive">Executive Insights</button>
   </div>
 
   <div id="tab-overview" class="tab-page active">
@@ -234,6 +236,25 @@
     <div class="card"><div class="section-title"><h2 data-i18n="plTableByClub">P&L Table by Club</h2><span class="tag">Financial detail</span></div><table id="plTable"></table></div>
   </div>
 
+
+  <div id="tab-lifecycle" class="tab-page">
+    <div class="grid-4" id="lifecycleCards"></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-title"><h2 data-i18n="customerLifecycle">Customer Lifecycle</h2><span class="tag">NEW / RENEW / Reactivation</span></div>
+        <div class="chart-box"><canvas id="lifecycleChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h2 data-i18n="repeatQuality">Repeat Revenue Quality</h2><span class="tag">Sustainable revenue</span></div>
+        <div class="chart-box"><canvas id="repeatChart"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title"><h2 data-i18n="lifecycleTableTitle">Lifecycle Table by Club</h2><span class="tag">Revenue quality</span></div>
+      <table id="lifecycleTable"></table>
+    </div>
+  </div>
+
   <div id="tab-actions" class="tab-page">
     <div class="grid-3">
       <div class="card"><div class="section-title"><h2 data-i18n="profitDrivers">Top Profit Drivers</h2><span class="tag">Scale</span></div><div class="driver-list" id="profitDrivers"></div></div>
@@ -242,6 +263,35 @@
     </div>
     <div class="card"><div class="section-title"><h2 data-i18n="dataNotes">Data Notes / Next Step</h2><span class="tag">Prototype</span></div><div class="mini" id="dataNotesText"></div></div>
   </div>
+
+  <div id="tab-executive" class="tab-page">
+    <div class="grid-4" id="execSummaryCards"></div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="section-title"><h2 data-i18n="healthScore">Club Health Score</h2><span class="tag">0 - 100</span></div>
+        <div class="chart-box-sm"><canvas id="healthScoreChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h2 data-i18n="warningCenter">Warning Center</h2><span class="tag">Early alerts</span></div>
+        <div class="driver-list" id="warningCenter"></div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h2 data-i18n="benchmarkEngine">Benchmark Engine</h2><span class="tag">System / Top quartile</span></div>
+        <div class="driver-list" id="benchmarkBox"></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-title"><h2 data-i18n="opportunityEngine">Opportunity Engine</h2><span class="tag">EBITDA upside</span></div>
+        <table id="opportunityTable"></table>
+      </div>
+      <div class="card">
+        <div class="section-title"><h2 data-i18n="executiveNarrative">Executive Narrative</h2><span class="tag">What / Why / Action</span></div>
+        <div class="driver-list" id="executiveNarrativeBox"></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -265,7 +315,7 @@ const I18N = {
     sourceQuality:'Source Quality', transactionMix:'Transaction Mix', costBreakdown:'Cost Breakdown', costVariance:'Cost Variance vs Budget', costTable:'Cost Table',
     headcountDept:'Headcount by Department', revEmployee:'Revenue per Employee', staffTable:'Staff Productivity Table', clubRanking:'Club Ranking', riskRanking:'Risk Ranking',
     plTableByClub:'P&L Table by Club', profitDrivers:'Top Profit Drivers', costLeakages:'Cost Leakages', gmActions:'GM Recommended Actions', dataNotes:'Data Notes / Next Step',
-    selectedRange:'Selected range', accessAll:'You can view all clubs.', accessClub:'You can only view', healthy:'Healthy', watch:'Watch', risk:'Risk',
+    tabLifecycle:'Customer Lifecycle', tabExecutive:'Executive Insights', customerLifecycle:'Customer Lifecycle', repeatQuality:'Repeat Revenue Quality', lifecycleTableTitle:'Lifecycle Table by Club', healthScore:'Club Health Score', warningCenter:'Warning Center', benchmarkEngine:'Benchmark Engine', opportunityEngine:'Opportunity Engine', executiveNarrative:'Executive Narrative', selectedRange:'Selected range', accessAll:'You can view all clubs.', accessClub:'You can only view', healthy:'Healthy', watch:'Watch', risk:'Risk',
     allRegions:'All Regions', allClubs:'All Clubs'
   },
   vi: {
@@ -544,7 +594,9 @@ function render(){
   renderRevenue(rows,c);
   renderCost(rows,c);
   renderPeople(rows,c);
+  renderLifecycle(rows,c);
   renderRanking(rows,c);
+  renderExecutiveInsights(rows,c);
   renderActions(rows,c);
 }
 
@@ -704,6 +756,126 @@ function renderSignals(c, clubAgg){
   ];
   document.getElementById('signals').innerHTML = arr.map(s=>`<div class="driver"><div><b>${s[0]}</b><span>${s[1]}</span></div><div class="amount ${s[3]}">${s[2]}</div></div>`).join('');
 }
+
+function lifecycleSplit(c){
+  const acquisition = Math.round(c.revenue * 0.38);
+  const renewal = Math.round(c.revenue * 0.34);
+  const reactivation = Math.round(c.revenue * 0.12);
+  const upgrade = Math.round(c.revenue * 0.16);
+  const repeat = renewal + reactivation + upgrade;
+  return {acquisition, renewal, reactivation, upgrade, repeat};
+}
+
+function calcHealthScore(c){
+  if(!c || !c.revenue) return 0;
+  const margin = c.ebitda / c.revenue;
+  const payroll = c.payroll / c.revenue;
+  const rent = c.rent / c.revenue;
+  const ptMix = 0.28;
+  const l = lifecycleSplit(c);
+  const renewalMix = l.renewal / c.revenue;
+  const repeatMix = l.repeat / c.revenue;
+  let score = 0;
+  score += Math.max(0, Math.min(20, margin / 0.18 * 20));
+  score += Math.max(0, Math.min(20, c.gp / c.revenue / 0.88 * 20));
+  score += Math.max(0, Math.min(15, (0.42 - payroll) / 0.18 * 15));
+  score += Math.max(0, Math.min(15, (0.30 - rent) / 0.14 * 15));
+  score += Math.max(0, Math.min(10, ptMix / 0.35 * 10));
+  score += Math.max(0, Math.min(10, renewalMix / 0.38 * 10));
+  score += Math.max(0, Math.min(10, repeatMix / 0.55 * 10));
+  return Math.round(score);
+}
+
+function getHealthAgg(rows){
+  return getClubAgg(rows).map(x => ({...x, health: calcHealthScore(x)})).sort((a,b)=>b.health-a.health);
+}
+
+function renderLifecycle(rows,c){
+  const l = lifecycleSplit(c);
+  document.getElementById('lifecycleCards').innerHTML = [
+    ['Acquisition Revenue', fmtMoney(l.acquisition), pct(l.acquisition/c.revenue) + ' of revenue'],
+    ['Renewal Revenue', fmtMoney(l.renewal), pct(l.renewal/c.revenue) + ' of revenue'],
+    ['Reactivation Revenue', fmtMoney(l.reactivation), pct(l.reactivation/c.revenue) + ' of revenue'],
+    ['Repeat Revenue %', pct(l.repeat/c.revenue), 'Renewal + Reactivation + Upgrade']
+  ].map(x=>`<div class="deep-card"><b>${x[0]}</b><div class="big">${x[1]}</div><div class="small">${x[2]}</div></div>`).join('');
+
+  makeChart('lifecycleChart', {
+    type:'bar',
+    data:{labels:['Acquisition','Renewal','Reactivation','Upgrade'], datasets:[{label:'Revenue', data:[l.acquisition,l.renewal,l.reactivation,l.upgrade], borderWidth:1}]},
+    options:moneyAxisOpts()
+  });
+  makeChart('repeatChart', {
+    type:'doughnut',
+    data:{labels:['New Revenue','Repeat Revenue'], datasets:[{data:[l.acquisition,l.repeat]}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:function(ctx){const label=ctx.label?ctx.label+': ':'';return label+fmtMoney(ctx.raw||0);}}}}}
+  });
+
+  let html = '<tr><th>Club</th><th class="num">New Rev</th><th class="num">Renewal</th><th class="num">Reactivation</th><th class="num">Repeat %</th><th class="num">Health</th></tr>';
+  getClubAgg(rows).forEach(x=>{
+    const lx = lifecycleSplit(x);
+    html += `<tr><td><b>${x.club}</b></td><td class="num">${fmtMoney(lx.acquisition)}</td><td class="num">${fmtMoney(lx.renewal)}</td><td class="num">${fmtMoney(lx.reactivation)}</td><td class="num">${pct(lx.repeat/x.revenue)}</td><td class="num"><b>${calcHealthScore(x)}</b></td></tr>`;
+  });
+  document.getElementById('lifecycleTable').innerHTML = html;
+}
+
+function renderExecutiveInsights(rows,c){
+  const healthAgg = getHealthAgg(rows);
+  const avgHealth = healthAgg.length ? Math.round(healthAgg.reduce((a,b)=>a+b.health,0)/healthAgg.length) : 0;
+  const weakClubs = healthAgg.filter(x=>x.health<55).length;
+  const margin = c.revenue ? c.ebitda/c.revenue : 0;
+  const l = lifecycleSplit(c);
+
+  document.getElementById('execSummaryCards').innerHTML = [
+    ['System Health Score', avgHealth, weakClubs + ' weak clubs'],
+    ['EBITDA Margin', pct(margin), fmtMoney(c.ebitda)],
+    ['Repeat Revenue', pct(l.repeat/c.revenue), fmtMoney(l.repeat)],
+    ['Warning Count', weakClubs, 'Clubs below 55 score']
+  ].map(x=>`<div class="deep-card"><b>${x[0]}</b><div class="big">${x[1]}</div><div class="small">${x[2]}</div></div>`).join('');
+
+  makeChart('healthScoreChart', {
+    type:'bar',
+    data:{labels:healthAgg.slice(0,12).map(x=>x.club), datasets:[{label:'Health Score', data:healthAgg.slice(0,12).map(x=>x.health), borderWidth:1}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return 'Health Score: '+ctx.raw;}}}},scales:{y:{beginAtZero:true,max:100}}}
+  });
+
+  const warnings = [];
+  healthAgg.slice().sort((a,b)=>a.health-b.health).slice(0,5).forEach(x=>{
+    const payroll = x.payroll/x.revenue;
+    const rent = x.rent/x.revenue;
+    if(x.margin < .04) warnings.push([x.club + ' EBITDA risk', 'Margin ' + pct(x.margin) + ' is below minimum threshold.', 'High']);
+    else if(payroll > .40) warnings.push([x.club + ' payroll risk', 'Payroll ratio ' + pct(payroll) + ' is too high.', 'Watch']);
+    else if(rent > .28) warnings.push([x.club + ' rent pressure', 'Rent ratio ' + pct(rent) + ' is too high.', 'Watch']);
+    else warnings.push([x.club + ' low health score', 'Score ' + x.health + '/100 needs management review.', 'Watch']);
+  });
+  document.getElementById('warningCenter').innerHTML = warnings.map(driver).join('');
+
+  const margins = healthAgg.map(x=>x.margin).sort((a,b)=>a-b);
+  const systemAvg = healthAgg.length ? healthAgg.reduce((a,b)=>a+b.margin,0)/healthAgg.length : 0;
+  const topQ = margins.length ? margins[Math.floor(margins.length*0.75)] : 0;
+  document.getElementById('benchmarkBox').innerHTML = [
+    ['System EBITDA Margin', 'Average across active clubs', pct(systemAvg)],
+    ['Top Quartile Margin', 'Benchmark for high-performing clubs', pct(topQ)],
+    ['Current View Margin', 'Selected filter performance', pct(margin)]
+  ].map(driver).join('');
+
+  let opp = '<tr><th>Club</th><th>Opportunity</th><th class="num">Current</th><th class="num">Target</th><th class="num">EBITDA Upside</th></tr>';
+  healthAgg.slice().sort((a,b)=>a.health-b.health).slice(0,8).forEach(x=>{
+    const payrollGap = Math.max(0, x.payroll/x.revenue - .35);
+    const rentGap = Math.max(0, x.rent/x.revenue - .22);
+    const upside = Math.round(x.revenue * (payrollGap + rentGap));
+    const oppName = payrollGap >= rentGap ? 'Reduce payroll pressure' : 'Improve rent / occupancy efficiency';
+    opp += `<tr><td><b>${x.club}</b></td><td>${oppName}</td><td class="num">${pct(x.margin)}</td><td class="num">${pct(.12)}</td><td class="num"><b>${fmtMoney(upside)}</b></td></tr>`;
+  });
+  document.getElementById('opportunityTable').innerHTML = opp;
+
+  const top = healthAgg[0], bottom = healthAgg[healthAgg.length-1];
+  document.getElementById('executiveNarrativeBox').innerHTML = [
+    ['What happened?', `Selected view generated ${fmtMoney(c.revenue)} revenue and ${fmtMoney(c.ebitda)} EBITDA, with ${pct(margin)} EBITDA margin.`, 'Summary'],
+    ['Why?', `Repeat revenue contributes ${pct(l.repeat/c.revenue)} while payroll is ${pct(c.payroll/c.revenue)} and rent is ${pct(c.rent/c.revenue)}.`, 'Drivers'],
+    ['What to do next?', bottom ? `Prioritize recovery plan for ${bottom.club}; benchmark against ${top.club}.` : 'No club data available.', 'Action']
+  ].map(driver).join('');
+}
+
 function renderActions(rows,c){
   const agg = getClubAgg(rows);
   const bottom = agg[agg.length-1];
@@ -722,7 +894,7 @@ function renderActions(rows,c){
     ['Cost action','Freeze non-essential OPEX if EBITDA risk','Now'],
     ['Club action',bottom?`Recovery plan for ${bottom.club}`:'No weak club found','This week']
   ].map(driver).join('');
-  document.getElementById('dataNotesText').innerHTML = '<b>Prototype update:</b> Club list and login users are generated from active clubs only, excluding CA360, TDY, CVC, Fin Serve, Fin Ser, Fin ser, JCQ, JVJ, LTC, SCC and VMC. Data remains demo only. Around 60% of active clubs are seeded as EBITDA-negative.<br><br><b>Next data mapping:</b> Use CSV columns Month, Club, Region, Type, Categories, Day, Value to create real P&L categories and date filters.';
+  document.getElementById('dataNotesText').innerHTML = '<b>Prototype update:</b> Club list and login users are generated from active clubs only, excluding CA360, TDY, CVC, Fin Serve, Fin Ser, Fin ser, JCQ, JVJ, LTC, SCC and VMC. Data remains demo only. Around 60% of active clubs are seeded as EBITDA-negative. Added Lifecycle, Health Score, Warning Center and Benchmark Engine.<br><br><b>Next data mapping:</b> Use CSV columns Month, Club, Region, Type, Categories, Day, Value to create real P&L categories and date filters.';
 }
 
 function updateAccessText(){
