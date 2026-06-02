@@ -1,1643 +1,690 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-<title>California Wellness Group | Beyond Activ Asia 2026</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --red:#e30613;
-  --red2:#ff2b2b;
-  --dark:#050505;
-  --white:#ffffff;
-  --muted:rgba(0,0,0,.68);
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  background:#f3f3f3;
-  font-family:"Inter", Arial, sans-serif;
-  color:#111;
-  overflow-x:hidden;
-}
-
-.deck{
-  display:flex;
-  flex-direction:column;
-  gap:42px;
-  padding:42px 0 120px;
-}
-
-.slide{
-  width:1600px;
-  height:900px;
-  margin:0 auto;
-  position:relative;
-  overflow:hidden;
-  background:#ffffff;
-  border-radius:22px;
-  box-shadow:0 30px 90px rgba(0,0,0,.55);
-}
-
-/* BACKGROUND DIM: 50–60% visible */
-.bg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:.18;
-  filter:contrast(1.05) saturate(.95);
-}
-
-/* dark layer to make text readable */
-.shade{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 78% 18%, rgba(227,6,19,.18), transparent 34%),
-    linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.78) 42%, rgba(255,255,255,.58) 100%);
-}
-
-/* subtle red stage glow */
-.glow{
-  position:absolute;
-  width:760px;
-  height:760px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(227,6,19,.30), transparent 62%);
-  right:-240px;
-  bottom:-300px;
-  filter:blur(10px);
-  opacity:.85;
-}
-
-.logo{
-  position:absolute;
-  top:52px;
-  right:64px;
-  width:320px;
-  z-index:5;
-  filter:none;
-  opacity:.92;
-}
-
-.content{
-  position:absolute;
-  z-index:6;
-}
-
-.eyebrow{
-  color:var(--red2);
-  letter-spacing:7px;
-  text-transform:uppercase;
-  font-size:17px;
-  font-weight:800;
-  margin-bottom:28px;
-}
-
-.kicker{
-  color:rgba(0,0,0,.45);
-  letter-spacing:4px;
-  text-transform:uppercase;
-  font-size:16px;
-  font-weight:700;
-  margin-bottom:22px;
-}
-
-h1.hero{
-  font-size:118px;
-  line-height:.9;
-  font-weight:300;
-  letter-spacing:-7px;
-  max-width:950px;
-}
-
-.hero-sub{
-  margin-top:38px;
-  font-size:38px;
-  line-height:1.25;
-  font-weight:300;
-  color:rgba(0,0,0,.78);
-  max-width:760px;
-}
-
-.footer{
-  position:absolute;
-  left:78px;
-  bottom:54px;
-  z-index:6;
-  font-size:17px;
-  color:rgba(0,0,0,.55);
-  letter-spacing:1.3px;
-  text-transform:uppercase;
-}
-
-.footer b{
-  color:var(--red2);
-}
-
-.big-title{
-  font-size:88px;
-  line-height:1;
-  letter-spacing:-5px;
-  font-weight:300;
-  max-width:1120px;
-}
-
-.big-title .red,
-.red{
-  color:var(--red2);
-}
-
-.statement{
-  font-size:66px;
-  line-height:1.12;
-  letter-spacing:-3px;
-  font-weight:300;
-  max-width:1180px;
-}
-
-.statement.small{
-  font-size:54px;
-  max-width:1020px;
-}
-
-.body{
-  margin-top:34px;
-  font-size:29px;
-  line-height:1.55;
-  color:var(--muted);
-  font-weight:300;
-  max-width:880px;
-}
-
-.two-col{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:90px;
-  width:1320px;
-}
-
-.col-title{
-  font-size:58px;
-  line-height:1.02;
-  letter-spacing:-3px;
-  font-weight:300;
-  margin-bottom:34px;
-}
-
-.bullets{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
-.bullet{
-  font-size:27px;
-  line-height:1.35;
-  color:rgba(0,0,0,.68);
-  font-weight:300;
-  display:flex;
-  gap:18px;
-}
-
-.bullet:before{
-  content:"";
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--red2);
-  margin-top:15px;
-  flex:0 0 auto;
-  box-shadow:0 0 18px rgba(255,43,43,.9);
-}
-
-.pill-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:18px;
-  margin-top:56px;
-  max-width:1240px;
-}
-
-.pill{
-  padding:18px 30px;
-  border:1px solid rgba(0,0,0,.12);
-  border-radius:999px;
-  background:rgba(255,255,255,.76);
-  backdrop-filter:blur(16px);
-  font-size:24px;
-  color:rgba(0,0,0,.78);
-}
-
-.card-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:24px;
-  width:1320px;
-  margin-top:50px;
-}
-
-.card{
-  padding:32px;
-  border-radius:24px;
-  background:rgba(255,255,255,.62);
-  border:1px solid rgba(0,0,0,.08);
-  backdrop-filter:blur(16px);
-  min-height:175px;
-}
-
-.card h3{
-  font-size:36px;
-  line-height:1;
-  margin-bottom:18px;
-  font-weight:600;
-}
-
-.card p{
-  font-size:22px;
-  line-height:1.45;
-  color:rgba(0,0,0,.58);
-  font-weight:300;
-}
-
-.quote{
-  font-size:74px;
-  line-height:1.18;
-  letter-spacing:-4px;
-  font-weight:300;
-  max-width:1180px;
-}
-
-.quote .red{
-  color:var(--red2);
-}
-
-.center{
-  position:absolute;
-  inset:0;
-  z-index:6;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:120px;
-}
-
-.chapter{
-  position:absolute;
-  left:78px;
-  top:64px;
-  z-index:6;
-  font-size:15px;
-  letter-spacing:4px;
-  color:rgba(0,0,0,.45);
-  text-transform:uppercase;
-  font-weight:800;
-}
-
-.bottom-line{
-  position:absolute;
-  left:78px;
-  right:78px;
-  bottom:58px;
-  z-index:6;
-  height:1px;
-  background:linear-gradient(90deg, var(--red), rgba(0,0,0,.16), transparent);
-}
-
-.side-number{
-  position:absolute;
-  right:74px;
-  bottom:48px;
-  z-index:6;
-  font-size:70px;
-  line-height:1;
-  font-weight:800;
-  color:rgba(0,0,0,.08);
-}
-
-.architecture{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:20px;
-  margin-top:60px;
-  width:1360px;
-}
-
-.arch{
-  min-height:230px;
-  padding:30px 24px;
-  border-radius:28px;
-  background:rgba(255,255,255,.75);
-  border:1px solid rgba(0,0,0,.08);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
-.arch h3{
-  font-size:32px;
-  font-weight:600;
-}
-
-.arch p{
-  font-size:20px;
-  line-height:1.45;
-  color:rgba(0,0,0,.62);
-  font-weight:300;
-}
-
-.loop{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:34px;
-  margin-top:54px;
-  width:1180px;
-}
-
-.loop-box{
-  padding:38px;
-  border-radius:30px;
-  background:rgba(255,255,255,.62);
-  border:1px solid rgba(0,0,0,.08);
-}
-
-.loop-box h3{
-  font-size:36px;
-  margin-bottom:24px;
-  color:var(--red2);
-}
-
-.loop-step{
-  font-size:27px;
-  color:rgba(0,0,0,.72);
-  margin:14px 0;
-}
-
-.nav{
-  position:fixed;
-  right:30px;
-  bottom:30px;
-  z-index:999;
-  display:flex;
-  gap:10px;
-}
-
-.nav button{
-  border:none;
-  background:var(--red);
-  color:#fff;
-  padding:13px 19px;
-  border-radius:12px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 12px 30px rgba(227,6,19,.22);
-}
-
-@media print{
-  @page{size:16in 9in; margin:0;}
-  body{background:#ffffff;}
-  .deck{padding:0; gap:0;}
-  .slide{
-    width:16in;
-    height:9in;
-    margin:0;
-    border-radius:0;
-    box-shadow:none;
-    page-break-after:always;
-  }
-  .nav{display:none;}
-}
-
-/* CLICK REVEAL + PRESENTATION MODE */
-.reveal{
-  opacity:0;
-  transform:translateY(24px);
-  transition:opacity .55s ease, transform .55s ease;
-}
-
-.reveal.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-.slide{
-  display:none;
-}
-
-.slide.active{
-  display:block;
-}
-
-.progress{
-  position:fixed;
-  left:0;
-  bottom:0;
-  height:4px;
-  background:var(--red2);
-  width:0%;
-  z-index:1000;
-  transition:width .35s ease;
-}
-
-.counter{
-  position:fixed;
-  left:28px;
-  bottom:24px;
-  z-index:999;
-  font-size:13px;
-  color:rgba(0,0,0,.55);
-  letter-spacing:2px;
-}
-
-@media print{
-  .slide{display:block !important;}
-  .progress,.counter{display:none;}
-  .reveal{opacity:1 !important; transform:none !important;}
-}
-
-
-/* White theme readability fixes */
-.pill{
-  box-shadow:0 10px 28px rgba(0,0,0,.06);
-}
-.logo{
-  mix-blend-mode:multiply;
-}
-
-/* Mobile fit-to-screen presentation mode */
-:root{
-  --slide-w:1600;
-  --slide-h:900;
-  --scale:1;
-}
-
-.deck{
-  align-items:center;
-}
-
-.slide{
-  transform-origin:top center;
-}
-
-@media (max-width: 1700px){
-  body{
-    overflow-x:hidden;
-  }
-
-  .deck{
-    display:block;
-    padding:24px 0 150px;
-  }
-
-  .slide{
-    width:1600px !important;
-    height:900px !important;
-    max-width:none !important;
-    transform:scale(var(--scale));
-    margin:0 auto;
-    display:none;
-  }
-
-  .slide.active{
-    display:block;
-  }
-}
-
-@media (max-width: 600px){
-  .deck{
-    padding-top:18px;
-    padding-bottom:120px;
-  }
-
-  .nav{
-    left:50%;
-    right:auto;
-    transform:translateX(-50%);
-    bottom:34px;
-    width:max-content;
-  }
-
-  .nav button{
-    padding:12px 16px;
-    font-size:14px;
-    border-radius:14px;
-  }
-
-  .counter{
-    left:18px;
-    bottom:25px;
-    font-size:12px;
-  }
-}
-
-
-/* AMAZING UPGRADE: animated ecosystem layer + premium motion */
-.ecosystem-canvas{
-  position:absolute; inset:0; width:100%; height:100%;
-  z-index:4; pointer-events:none; opacity:.34; mix-blend-mode:multiply;
-}
-.slide::after{
-  content:""; position:absolute; inset:0; z-index:4; pointer-events:none;
-  background:
-    radial-gradient(circle at 18% 22%, rgba(227,6,19,.08), transparent 26%),
-    radial-gradient(circle at 86% 76%, rgba(227,6,19,.12), transparent 28%);
-}
-.slide.active .logo{animation:logoIn .75s ease both;}
-@keyframes logoIn{from{opacity:0; transform:translateY(-10px);}to{opacity:.92; transform:translateY(0);}}
-
-.reveal{transition:opacity .65s ease, transform .65s cubic-bezier(.2,.8,.2,1), filter .65s ease; filter:blur(6px);}
-.reveal.show{filter:blur(0);}
-.big-title.reveal.show,.hero.reveal.show,.statement.reveal.show,.quote.reveal.show{animation:titleRise .8s cubic-bezier(.2,.8,.2,1) both;}
-@keyframes titleRise{from{letter-spacing:-10px;}to{letter-spacing:inherit;}}
-
-.card,.arch,.loop-box,.pill{transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;}
-.card:hover,.arch:hover,.loop-box:hover,.pill:hover{
-  transform:translateY(-6px); border-color:rgba(227,6,19,.22);
-  box-shadow:0 24px 50px rgba(227,6,19,.10);
-}
-.card h3,.arch h3{display:flex; align-items:center; gap:14px;}
-.card h3::before,.arch h3::before{
-  content:""; width:34px; height:34px; flex:0 0 34px; border-radius:50%;
-  background:radial-gradient(circle at center, rgba(227,6,19,.20), transparent 58%),
-             linear-gradient(135deg, rgba(227,6,19,.95), rgba(255,43,43,.35));
-  box-shadow:0 0 22px rgba(227,6,19,.22);
-}
-.pill{position:relative; overflow:hidden; padding-left:42px;}
-.pill::before{
-  content:""; position:absolute; left:18px; top:50%; transform:translateY(-50%);
-  width:8px; height:8px; border-radius:50%; background:var(--red2);
-  box-shadow:0 0 14px rgba(227,6,19,.55);
-}
-.quote::after{
-  content:""; display:block; width:0; height:3px;
-  background:linear-gradient(90deg, transparent, var(--red2), transparent);
-  margin:38px auto 0; transition:width .8s ease .25s;
-}
-.quote.show::after{width:72%;}
-
-/* dark cinematic chapter slides */
-.slide[data-theme="dark"]{background:#050505; color:#fff;}
-.slide[data-theme="dark"] .shade{
-  background:
-    radial-gradient(circle at 82% 20%, rgba(227,6,19,.18), transparent 34%),
-    linear-gradient(90deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.68) 46%, rgba(0,0,0,.46) 100%);
-}
-.slide[data-theme="dark"] .logo{filter:brightness(0) invert(1); mix-blend-mode:normal;}
-.slide[data-theme="dark"] .chapter,
-.slide[data-theme="dark"] .body,
-.slide[data-theme="dark"] .bullet,
-.slide[data-theme="dark"] .card p,
-.slide[data-theme="dark"] .arch p,
-.slide[data-theme="dark"] .loop-step,
-.slide[data-theme="dark"] .footer,
-.slide[data-theme="dark"] .hero-sub{color:rgba(255,255,255,.72);}
-.slide[data-theme="dark"] .card,
-.slide[data-theme="dark"] .arch,
-.slide[data-theme="dark"] .loop-box,
-.slide[data-theme="dark"] .pill{
-  background:rgba(10,10,10,.48); border-color:rgba(255,255,255,.12); color:#fff;
-}
-.slide[data-theme="dark"] .card h3,.slide[data-theme="dark"] .arch h3{color:#fff;}
-@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important;}}
-
-
-/* Fullscreen presentation mode */
-body.presentation-fullscreen{
-  background:#000;
-}
-
-body.presentation-fullscreen .deck{
-  padding:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-body.presentation-fullscreen .slide{
-  border-radius:0;
-  box-shadow:none;
-}
-
-body.presentation-fullscreen .nav{
-  opacity:.16;
-  transition:opacity .25s ease;
-}
-
-body.presentation-fullscreen .nav:hover{
-  opacity:1;
-}
-
-body.presentation-fullscreen .counter{
-  color:rgba(255,255,255,.55);
-}
-
-.nav button.fullscreen-btn{
-  background:#111;
-  border:1px solid rgba(255,255,255,.16);
-}
-
-.nav button.fullscreen-btn.active{
-  background:var(--red);
-  border-color:transparent;
-}
-
-
-/* Mobile-safe pseudo fullscreen fallback */
-body.mobile-pseudo-fullscreen{
-  background:#000;
-  overflow:hidden;
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-}
-
-body.mobile-pseudo-fullscreen .deck{
-  padding:0 !important;
-  min-height:100vh !important;
-  width:100vw;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-body.mobile-pseudo-fullscreen .slide{
-  border-radius:0 !important;
-  box-shadow:none !important;
-  margin:0 auto !important;
-}
-
-body.mobile-pseudo-fullscreen .nav{
-  opacity:.18;
-}
-
-body.mobile-pseudo-fullscreen .nav:hover{
-  opacity:1;
-}
-
-body.mobile-pseudo-fullscreen .counter{
-  color:rgba(255,255,255,.6);
-}
-
-body.mobile-pseudo-fullscreen .progress{
-  bottom:0;
-}
-
-/* hint banner only appears briefly after mobile fullscreen */
-.mobile-fullscreen-hint{
-  position:fixed;
-  left:50%;
-  top:16px;
-  transform:translateX(-50%);
-  z-index:2000;
-  padding:10px 14px;
-  border-radius:999px;
-  background:rgba(0,0,0,.72);
-  color:#fff;
-  font-size:12px;
-  letter-spacing:.2px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .25s ease;
-  backdrop-filter:blur(10px);
-}
-
-.mobile-fullscreen-hint.show{
-  opacity:1;
-}
-
-
-/* SMART CINEMATIC FULLSCREEN */
-body.presentation-fullscreen,
-body.mobile-pseudo-fullscreen{
-  background:#000;
-}
-
-body.presentation-fullscreen .deck,
-body.mobile-pseudo-fullscreen .deck{
-  width:100vw;
-  height:100vh;
-  padding:0 !important;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-body.presentation-fullscreen .slide,
-body.mobile-pseudo-fullscreen .slide{
-  border-radius:0 !important;
-  box-shadow:none !important;
-}
-
-/* landscape mobile = true immersive */
-@media (max-width: 1200px) and (orientation: landscape){
-  body.mobile-pseudo-fullscreen .slide{
-    transform:scale(var(--cover-scale)) !important;
-  }
-
-  body.mobile-pseudo-fullscreen .nav{
-    bottom:18px;
-  }
-}
-
-/* portrait mobile */
-@media (max-width: 900px) and (orientation: portrait){
-  body.mobile-pseudo-fullscreen .slide{
-    transform:scale(var(--portrait-scale)) !important;
-  }
-
-  body.mobile-pseudo-fullscreen .nav{
-    bottom:22px;
-  }
-
-  body.mobile-pseudo-fullscreen .mobile-fullscreen-hint{
-    top:12px;
-  }
-}
-
-.rotate-device{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  background:rgba(0,0,0,.92);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:18px;
-  color:#fff;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .3s ease;
-}
-
-.rotate-device.show{
-  opacity:1;
-}
-
-.rotate-icon{
-  width:72px;
-  height:72px;
-  border:2px solid rgba(255,255,255,.35);
-  border-radius:18px;
-  position:relative;
-  animation:rotatePhone 2s ease-in-out infinite;
-}
-
-.rotate-icon::after{
-  content:"";
-  position:absolute;
-  inset:10px;
-  border-radius:10px;
-  border:2px solid rgba(255,255,255,.55);
-}
-
-@keyframes rotatePhone{
-  0%{transform:rotate(0deg);}
-  35%{transform:rotate(0deg);}
-  50%{transform:rotate(90deg);}
-  85%{transform:rotate(90deg);}
-  100%{transform:rotate(0deg);}
-}
-
-
-/* DESKTOP FULLSCREEN CONTAIN FIX
-   Prevents right-side cropping at browser zoom 100%.
-   Fullscreen uses transform scale and centers the 1600x900 slide exactly inside viewport. */
-body.presentation-fullscreen{
-  width:100vw;
-  height:100vh;
-  overflow:hidden !important;
-}
-
-body.presentation-fullscreen .deck{
-  position:fixed;
-  inset:0;
-  width:100vw !important;
-  height:100vh !important;
-  min-height:100vh !important;
-  padding:0 !important;
-  margin:0 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  overflow:hidden !important;
-}
-
-body.presentation-fullscreen .slide{
-  position:absolute !important;
-  left:50% !important;
-  top:50% !important;
-  width:1600px !important;
-  height:900px !important;
-  margin:0 !important;
-  transform:translate(-50%, -50%) scale(var(--fullscreen-scale)) !important;
-  transform-origin:center center !important;
-  border-radius:0 !important;
-  box-shadow:none !important;
-}
-
-body.presentation-fullscreen .slide:not(.active){
-  display:none !important;
-}
-
-body.presentation-fullscreen .slide.active{
-  display:block !important;
-}
-
-/* Same safe centering for mobile pseudo fullscreen when needed */
-body.mobile-pseudo-fullscreen .deck{
-  position:fixed;
-  inset:0;
-  width:100vw !important;
-  height:100vh !important;
-  overflow:hidden !important;
-}
-
-body.mobile-pseudo-fullscreen .slide{
-  left:50% !important;
-  top:50% !important;
-  margin:0 !important;
-  transform-origin:center center !important;
-}
-
-
-/* FINAL MOBILE FULLSCREEN FIX
-   - Landscape: cover-fill for immersive full screen
-   - Portrait: contain-fit so the full 16:9 slide is visible and centered
-   - No layout reflow, no font distortion */
-body.mobile-pseudo-fullscreen{
-  background:#000 !important;
-  overflow:hidden !important;
-  position:fixed !important;
-  inset:0 !important;
-  width:100vw !important;
-  height:100vh !important;
-  touch-action:manipulation;
-}
-
-body.mobile-pseudo-fullscreen .deck{
-  position:fixed !important;
-  inset:0 !important;
-  width:100vw !important;
-  height:100vh !important;
-  min-height:100vh !important;
-  padding:0 !important;
-  margin:0 !important;
-  display:block !important;
-  overflow:hidden !important;
-}
-
-body.mobile-pseudo-fullscreen .slide{
-  position:absolute !important;
-  left:50% !important;
-  top:50% !important;
-  width:1600px !important;
-  height:900px !important;
-  margin:0 !important;
-  border-radius:0 !important;
-  box-shadow:none !important;
-  transform-origin:center center !important;
-  display:none !important;
-}
-
-body.mobile-pseudo-fullscreen .slide.active{
-  display:block !important;
-}
-
-/* Landscape mobile: fill the screen like video cover mode */
-@media (orientation: landscape){
-  body.mobile-pseudo-fullscreen .slide.active{
-    transform:translate(-50%, -50%) scale(var(--mobile-landscape-scale)) !important;
-  }
-}
-
-/* Portrait mobile: keep the whole slide visible, centered, no cropping */
-@media (orientation: portrait){
-  body.mobile-pseudo-fullscreen .slide.active{
-    transform:translate(-50%, -50%) scale(var(--mobile-portrait-scale)) !important;
-  }
-}
-
-body.mobile-pseudo-fullscreen .nav{
-  left:50% !important;
-  right:auto !important;
-  bottom:max(14px, env(safe-area-inset-bottom)) !important;
-  transform:translateX(-50%) !important;
-  opacity:.34;
-  transition:opacity .25s ease;
-}
-
-body.mobile-pseudo-fullscreen .nav:hover,
-body.mobile-pseudo-fullscreen .nav:active{
-  opacity:1;
-}
-
-body.mobile-pseudo-fullscreen .nav button{
-  padding:11px 14px !important;
-  font-size:13px !important;
-  border-radius:999px !important;
-}
-
-body.mobile-pseudo-fullscreen .counter{
-  left:14px !important;
-  bottom:max(18px, env(safe-area-inset-bottom)) !important;
-  color:rgba(255,255,255,.65) !important;
-}
-
-body.mobile-pseudo-fullscreen .mobile-fullscreen-hint{
-  top:max(10px, env(safe-area-inset-top)) !important;
-}
-
-/* remove forced rotate overlay in final mobile mode */
-body.mobile-pseudo-fullscreen .rotate-device{
-  display:none !important;
-}
-
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>California Fitness P&L Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --red:#d71920; --red2:#9f1117; --black:#101010; --ink:#171717; --muted:#6b7280;
+      --line:#e5e7eb; --soft:#f6f6f7; --card:#fff; --green:#059669; --amber:#d97706;
+      --danger:#dc2626; --blue:#2563eb; --shadow:0 18px 45px rgba(17,17,17,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:Inter,Arial,Tahoma,sans-serif; color:var(--ink);
+      background:radial-gradient(circle at top left,rgba(215,25,32,.12),transparent 34%),
+      radial-gradient(circle at bottom right,rgba(17,17,17,.10),transparent 36%),
+      linear-gradient(180deg,#fff 0%,#f6f6f7 100%);
+    }
+    body:not(.authed) header, body:not(.authed) .wrap{display:none!important}
+    body.authed #loginScreen{display:none!important}
+    #loginScreen{
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+      background:linear-gradient(135deg,#111 0%,#2b0507 55%,#d71920 150%);
+    }
+    .login-card{
+      width:100%; max-width:520px; background:rgba(255,255,255,.97); border-radius:28px; padding:30px;
+      box-shadow:0 28px 80px rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.35)
+    }
+    .logo-mark{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;font-weight:1000;text-transform:uppercase;letter-spacing:.08em}
+    .logo-dot{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--red),var(--black));display:inline-block}
+    h1{margin:0;font-size:30px;letter-spacing:-.04em}
+    p{font-size:13px;line-height:1.5;color:var(--muted)}
+    label{display:block;margin:0 0 7px;font-size:11px;text-transform:uppercase;font-weight:900;color:var(--muted);letter-spacing:.08em}
+    input,select{
+      width:100%;height:42px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:0 12px;
+      color:var(--ink);font-weight:700;outline:none
+    }
+    input:focus,select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(215,25,32,.12)}
+    button{border:0;border-radius:14px;font-weight:900;cursor:pointer;padding:11px 15px;box-shadow:0 10px 22px rgba(17,17,17,.08)}
+    .btn-red{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff}
+    .btn-dark{background:#111;color:#fff}
+    .btn-light{background:#fff;color:#111;border:1px solid var(--line);box-shadow:none}
+    .login-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .login-error{display:none;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:14px;margin-top:12px;padding:10px 12px;font-size:13px;font-weight:800}
+    .demo-logins{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;max-height:130px;overflow:auto;padding:8px;background:#fafafa;border:1px solid var(--line);border-radius:16px}
+    .demo-chip{font-size:11px;padding:6px 8px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:none}
+
+    header{background:linear-gradient(135deg,#111 0%,#1c1c1c 52%,#d71920 130%);color:#fff;padding:22px 28px 24px;box-shadow:0 15px 40px rgba(0,0,0,.18)}
+    .head-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+    .brand{display:flex;align-items:center;gap:13px}
+    .brand-badge{width:44px;height:44px;border-radius:14px;background:#d71920;box-shadow:inset 0 0 0 2px rgba(255,255,255,.18)}
+    .brand-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:1000;color:#fecaca}
+    header h1{font-size:31px;margin-top:3px}
+    header p{margin:7px 0 0;color:#d1d5db;font-size:13px}
+    .top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .user-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900;color:#fff}
+    .lang-btn{background:#fff;color:#111;border-radius:999px;padding:9px 13px;font-size:12px;box-shadow:none}
+
+    .wrap{max-width:1660px;margin:0 auto;padding:22px 24px 40px}
+    .notice{background:#111;color:#fff;border-radius:18px;padding:12px 15px;margin-bottom:16px;font-size:13px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .notice span{color:#d1d5db}
+    .filters{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:12px;margin-bottom:18px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:var(--shadow)}
+    .preset-row{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .preset-row .btn-light{padding:8px 12px;border-radius:999px;font-size:12px}
+    .range-note{margin-left:auto;font-size:12px;color:var(--muted);font-weight:800}
+
+    .tabbar{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 18px}
+    .tab-btn{background:#fff;color:#111;border:1px solid var(--line);box-shadow:none;border-radius:999px;padding:10px 14px;font-weight:1000;font-size:13px}
+    .tab-btn.active{background:linear-gradient(135deg,var(--red),#111);color:#fff;border-color:transparent;box-shadow:0 10px 24px rgba(215,25,32,.16)}
+    .tab-page{display:none}
+    .tab-page.active{display:block}
+
+    .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:13px;margin-bottom:16px}
+    .card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:24px;padding:17px;box-shadow:var(--shadow);overflow:hidden}
+    .kpis .card:first-child{background:linear-gradient(135deg,#d71920,#111);color:#fff;border:0}
+    .kpi-title{font-size:11px;text-transform:uppercase;font-weight:1000;color:var(--muted);letter-spacing:.07em}
+    .kpis .card:first-child .kpi-title,.kpis .card:first-child .kpi-sub{color:rgba(255,255,255,.78)}
+    .kpi-value{font-size:27px;font-weight:1000;letter-spacing:-.05em;margin-top:9px}
+    .kpi-sub{font-size:12px;color:var(--muted);margin-top:4px;font-weight:700}
+    .good{color:var(--green)!important} .bad{color:var(--danger)!important} .warn{color:var(--amber)!important} .blue{color:var(--blue)!important}
+
+    .grid-2{display:grid;grid-template-columns:1.25fr .75fr;gap:15px;margin-bottom:15px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-bottom:15px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:15px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;gap:12px}
+    .section-title h2{font-size:17px;margin:0;font-weight:1000;letter-spacing:-.03em}
+    .tag{font-size:11px;background:#fee2e2;color:#b91c1c;border-radius:999px;padding:6px 10px;font-weight:1000}
+    .chart-box{height:345px} .chart-box-sm{height:290px}
+
+    table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:14px;overflow:hidden}
+    th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--line);padding:10px 8px;letter-spacing:.05em}
+    td{border-bottom:1px solid #f0f1f3;padding:10px 8px}
+    tr:hover{background:#fafafa}
+    .num{text-align:right;font-variant-numeric:tabular-nums}
+    .mini{font-size:12px;color:var(--muted);line-height:1.45}
+    .driver-list{display:grid;gap:10px}
+    .driver{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fff;display:flex;justify-content:space-between;gap:12px}
+    .driver b{font-size:13px} .driver span{font-size:12px;color:var(--muted);display:block;margin-top:3px} .driver .amount{font-weight:1000;text-align:right;white-space:nowrap}
+    .deep-card{border-radius:18px;border:1px solid var(--line);padding:14px;background:#fff}
+    .deep-card b{font-size:13px} .deep-card .big{font-size:24px;font-weight:1000;margin-top:7px} .deep-card .small{font-size:12px;color:var(--muted);font-weight:700;margin-top:3px}
+
+    @media(max-width:1200px){.filters{grid-template-columns:repeat(3,1fr)}.kpis,.grid-4{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:900px){.filters,.kpis,.grid-2,.grid-3,.grid-4,.login-row{grid-template-columns:1fr}.range-note{margin-left:0}.head-top{flex-direction:column}}
+  </style>
 </head>
-
 <body>
 
-<div class="deck">
-
-<!-- 01 COVER -->
-<section class="slide active">
-  <img class="bg" src="background 7.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-
-  <div class="content" style="left:78px;top:135px;">
-    <div class="eyebrow reveal">Beyond Activ Asia 2026 · Bangkok</div>
-    <h1 class="hero reveal">Rebuilding<br>The Product.</h1>
-    <div class="hero-sub reveal">Rebuilding Human Performance.</div>
-  </div>
-
-  <div class="footer"><b>Dane Fort</b> · Co-Founder & Co-Chairman · California Wellness Group</div>
-</section>
-
-<!-- 02 TENSION -->
-<section class="slide">
-  <img class="bg" src="background 0.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">01 · The Collapse of the Old Model</div>
-
-  <div class="content" style="left:78px;top:185px;">
-    <div class="big-title reveal">Access is<br><span class="red">no longer enough.</span></div>
-    <div class="body reveal">
-      The traditional fitness model was built around access, equipment,
-      locations, and memberships. But member behavior has moved faster
-      than the old product architecture.
-    </div>
-  </div>
-
-  <div class="bottom-line"></div><div class="side-number">01</div>
-</section>
-
-<!-- 03 OLD VS NEW -->
-<section class="slide">
-  <img class="bg" src="background 5.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">02 · The Industry Shift</div>
-
-  <div class="content" style="left:78px;top:150px;">
-    <div class="two-col reveal">
-      <div>
-        <div class="col-title">Old model:<br><span class="red">Access.</span></div>
-        <div class="bullets">
-          <div class="bullet">Equipment and square meters</div>
-          <div class="bullet">One-size-fits-all memberships</div>
-          <div class="bullet">Cardio floor as the center</div>
-          <div class="bullet">Transactions and discounting</div>
-        </div>
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="logo-mark"><span class="logo-dot"></span><span>California Fitness</span></div>
+    <h1 data-i18n="loginTitle">P&L Dashboard</h1>
+    <p data-i18n="loginSub">Role-based demo: BOD can view all clubs, each Club user can view only assigned club.</p>
+    <form onsubmit="return handleLogin(event)">
+      <div class="login-row">
+        <div><label data-i18n="username">Username</label><input id="loginUser" placeholder="bod / PCO / VVO / TTC"></div>
+        <div><label data-i18n="password">Password</label><input id="loginPass" type="password" placeholder="123456"></div>
       </div>
-
-      <div>
-        <div class="col-title">New model:<br><span class="red">Outcomes.</span></div>
-        <div class="bullets">
-          <div class="bullet">Personalized member journeys</div>
-          <div class="bullet">Recovery, longevity, belonging</div>
-          <div class="bullet">Performance and lifestyle identity</div>
-          <div class="bullet">Lifetime value and ecosystem depth</div>
-        </div>
-      </div>
-    </div>
+      <button class="btn-red" type="submit" style="width:100%;margin-top:12px" data-i18n="login">Login</button>
+      <div id="loginError" class="login-error" data-i18n="loginError">Incorrect username or password.</div>
+    </form>
+    <p class="mini"><b>Demo:</b> BOD = <b>bod / 123456</b>. Club login = <b>club code / 123456</b>, ví dụ <b>PCO / 123456</b>, <b>VVO / 123456</b>.</p>
+    <div class="demo-logins" id="demoLoginChips"></div>
   </div>
-
-  <div class="bottom-line"></div><div class="side-number">02</div>
-</section>
-
-<!-- 04 THE BIG QUESTION -->
-<section class="slide">
-  <img class="bg" src="background 8.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">03 · The New Member Contract</div>
-
-  <div class="content" style="left:78px;top:135px;">
-    <div class="statement reveal">
-      Members changed the question.
-      <br><br>
-      From <span class="red">“what equipment do you have?”</span>
-      <br>
-      to <span class="red">“can this place improve my life?”</span>
-    </div>
-  </div>
-
-  <div class="bottom-line"></div><div class="side-number">03</div>
-</section>
-
-<!-- 05 HUMAN NEEDS -->
-<section class="slide">
-  <img class="bg" src="background 4.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">04 · Human Needs, Not Equipment Categories</div>
-
-  <div class="content" style="left:78px;top:135px;">
-    <div class="big-title reveal">The new product mix<br>starts with <span class="red">human needs.</span></div>
-
-    <div class="pill-row reveal">
-      <div class="pill">Energy</div>
-      <div class="pill">Confidence</div>
-      <div class="pill">Appearance</div>
-      <div class="pill">Stress reduction</div>
-      <div class="pill">Recovery</div>
-      <div class="pill">Longevity</div>
-      <div class="pill">Belonging</div>
-      <div class="pill">Performance</div>
-    </div>
-  </div>
-
-  <div class="bottom-line"></div><div class="side-number">04</div>
-</section>
-
-<!-- 06 TREND != STRATEGY -->
-<section class="slide" data-theme="dark">
-  <img class="bg" src="background 6.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">05 · Operator Dilemma</div>
-
-  <div class="center">
-    <div class="quote reveal">
-      Trend is not strategy.
-      <br><br>
-      A trend only matters when it
-      <span class="red">deepens the relationship</span>
-      between the member and the ecosystem.
-    </div>
-  </div>
-</section>
-
-<!-- 07 TREND FILTER -->
-<section class="slide">
-  <img class="bg" src="background 3.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">06 · The Trend Filter</div>
-
-  <div class="content" style="left:78px;top:105px;">
-    <div class="big-title reveal">Every trend must<br>earn its role.</div>
-
-    <div class="card-grid reveal">
-      <div class="card"><h3>Frequency</h3><p>Does it bring members back more often?</p></div>
-      <div class="card"><h3>Retention</h3><p>Does it make the relationship harder to leave?</p></div>
-      <div class="card"><h3>Community</h3><p>Does it create shared identity and belonging?</p></div>
-      <div class="card"><h3>LTV</h3><p>Does it expand monetization without damaging trust?</p></div>
-      <div class="card"><h3>Scalability</h3><p>Can it be trained, operated, and repeated across clubs?</p></div>
-      <div class="card"><h3>Ecosystem Depth</h3><p>Does it connect to other products and outcomes?</p></div>
-    </div>
-  </div>
-
-  <div class="bottom-line"></div><div class="side-number">06</div>
-</section>
-
-<!-- 08 TRENDS BY ROLE -->
-<section class="slide">
-  <img class="bg" src="background 1.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">07 · Not All Trends Serve The Same Role</div>
-
-  <div class="content" style="left:78px;top:95px;">
-    <div class="big-title reveal">Different trends.<br><span class="red">Different jobs.</span></div>
-
-    <div class="card-grid reveal">
-      <div class="card"><h3>Strength</h3><p>The new mainstream core: confidence, capability, functional ageing.</p></div>
-      <div class="card"><h3>Pilates</h3><p>Premium retention through technique, progression, and coaching.</p></div>
-      <div class="card"><h3>HYROX</h3><p>Community, identity, events, and training purpose.</p></div>
-      <div class="card"><h3>Padel / Pickle</h3><p>Social acquisition and lifestyle frequency beyond the gym floor.</p></div>
-      <div class="card"><h3>Recovery</h3><p>Lifetime value through readiness, consistency, and longevity.</p></div>
-      <div class="card"><h3>PT</h3><p>Monetization depth through trust, accountability, and personalization.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 09 ARCHITECTURE -->
-<section class="slide">
-  <img class="bg" src="background 2.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">08 · The New Product Architecture</div>
-
-  <div class="content" style="left:78px;top:115px;">
-    <div class="big-title reveal">From gym floor<br>to <span class="red">operating system.</span></div>
-
-    <div class="architecture reveal">
-      <div class="arch"><h3>Train</h3><p>Strength, PT, Pilates, performance programming.</p></div>
-      <div class="arch"><h3>Recover</h3><p>Recovery, physio, readiness, pain reduction.</p></div>
-      <div class="arch"><h3>Prevent</h3><p>Longevity, diagnostics, preventive health pathways.</p></div>
-      <div class="arch"><h3>Belong</h3><p>Community, events, social wellbeing, identity.</p></div>
-      <div class="arch"><h3>Personalize</h3><p>Flexible memberships, data, coaching, member choice.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 10 WHAT TO REMOVE -->
-<section class="slide">
-  <img class="bg" src="background 7.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">09 · What We Remove</div>
-
-  <div class="content" style="left:78px;top:145px;">
-    <div class="big-title reveal">Make space for what<br><span class="red">truly drives value.</span></div>
-
-    <div class="body reveal">
-      The future club is not bigger. It is smarter.
-    </div>
-
-    <div class="bullets" style="margin-top:45px;">
-      <div class="bullet">Oversized low-use spaces</div>
-      <div class="bullet">Static formats with weak repeat behavior</div>
-      <div class="bullet">Equipment that does not create engagement</div>
-      <div class="bullet">One-size-fits-all membership architecture</div>
-      <div class="bullet">Complexity without member value</div>
-    </div>
-  </div>
-
-  <div class="bottom-line"></div><div class="side-number">09</div>
-</section>
-
-<!-- 11 CAPEX TRAP -->
-<section class="slide" data-theme="dark">
-  <img class="bg" src="background 0.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">10 · The Capex Trap</div>
-
-  <div class="content" style="left:78px;top:120px;">
-    <div class="big-title reveal">The old cycle<br>is expensive.</div>
-
-    <div class="loop reveal">
-      <div class="loop-box">
-        <h3>Old ROI Logic</h3>
-        <div class="loop-step">Renovate</div>
-        <div class="loop-step">→ Hype</div>
-        <div class="loop-step">→ Discount</div>
-        <div class="loop-step">→ Decline</div>
-        <div class="loop-step">→ Renovate again</div>
-      </div>
-
-      <div class="loop-box">
-        <h3>New ROI Logic</h3>
-        <div class="loop-step">Programming</div>
-        <div class="loop-step">→ Coaching</div>
-        <div class="loop-step">→ Recovery</div>
-        <div class="loop-step">→ Community</div>
-        <div class="loop-step">→ Higher LTV</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 12 COMMUNITY -->
-<section class="slide">
-  <img class="bg" src="background 8.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-  <div class="chapter">11 · Community Is Infrastructure</div>
-
-  <div class="content" style="left:78px;top:165px;">
-    <div class="statement small reveal">
-      Community may not always appear first on the P&L.
-      <br><br>
-      But it appears everywhere in
-      <span class="red">lifetime value.</span>
-    </div>
-
-    <div class="pill-row reveal">
-      <div class="pill">Retention</div>
-      <div class="pill">Referrals</div>
-      <div class="pill">Consistency</div>
-      <div class="pill">Identity</div>
-      <div class="pill">Emotional loyalty</div>
-    </div>
-  </div>
-</section>
-
-<!-- 13 FINAL -->
-<section class="slide" data-theme="dark">
-  <img class="bg" src="background 5.png" />
-  <div class="shade"></div><div class="glow"></div><canvas class="ecosystem-canvas"></canvas>
-  <img class="logo" src="logo.png" />
-
-  <div class="center">
-    <div class="quote reveal">
-      The winners in the next decade
-      won’t be the operators with
-      the most equipment.
-      <br><br>
-      They will be the operators
-      that become part of
-      <span class="red">people’s lives.</span>
-    </div>
-  </div>
-
-  <div class="footer"><b>Dane Fort</b> · California Wellness Group</div>
-</section>
-
 </div>
 
-<div class="mobile-fullscreen-hint" id="mobileHint">Presentation mode enabled.</div>
-<div class="rotate-device" id="rotateDevice"><div class="rotate-icon"></div><div>Rotate device for immersive presentation</div></div>
-<div class="progress" id="progress"></div>
-<div class="counter" id="counter"></div>
+<header>
+  <div class="head-top">
+    <div class="brand">
+      <div class="brand-badge"></div>
+      <div>
+        <div class="brand-kicker" data-i18n="kicker">Commercial Finance Intelligence</div>
+        <h1>California Fitness P&L Dashboard</h1>
+        <p data-i18n="headerSub">Role-based P&L view • Club profitability • Revenue, cost, EBITDA and margin control</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn">VI</button>
+      <span class="user-chip" id="userChip">-</span>
+      <button class="btn-light" onclick="logout()" data-i18n="logout">Logout</button>
+    </div>
+  </div>
+</header>
 
-<div class="nav">
-  <button onclick="prevSlide()">Prev</button>
-  <button onclick="nextStep()">Next</button>
-  <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()">Full Screen</button>
-  <button onclick="window.print()">Export PDF</button>
+<div class="wrap">
+  <div class="notice">
+    <div><b>Access Control:</b> <span id="accessText">-</span></div>
+    <span data-i18n="mockNote">Demo data uses exact club list from uploaded sample. Some clubs are profitable, some are loss-making.</span>
+  </div>
+
+  <div class="filters">
+    <div><label data-i18n="fromDate">From Date</label><input type="date" id="fromDate"></div>
+    <div><label data-i18n="toDate">To Date</label><input type="date" id="toDate"></div>
+    <div><label data-i18n="region">Region</label><select id="regionFilter" onchange="refreshClubFilter();render()"></select></div>
+    <div><label data-i18n="club">Club</label><select id="clubFilter" onchange="render()"></select></div>
+    <div><label data-i18n="view">View</label><select id="viewMode" onchange="render()"><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="daily">Daily</option></select></div>
+    <div style="display:flex;gap:8px;align-items:end"><button class="btn-red" onclick="render()" data-i18n="apply">Apply</button><button class="btn-dark" onclick="resetFilters()" data-i18n="reset">Reset</button></div>
+    <div class="preset-row">
+      <button class="btn-light" onclick="setPreset('thisMonth')" data-i18n="thisMonth">This Month</button>
+      <button class="btn-light" onclick="setPreset('lastMonth')" data-i18n="lastMonth">Last Month</button>
+      <button class="btn-light" onclick="setPreset('last7')" data-i18n="last7">Last 7 Days</button>
+      <button class="btn-light" onclick="setPreset('last30')" data-i18n="last30">Last 30 Days</button>
+      <button class="btn-light" onclick="setPreset('ytd')" data-i18n="ytd">YTD</button>
+      <button class="btn-light" onclick="setPreset('all')" data-i18n="allTime">All Time</button>
+      <span class="range-note" id="rangeNote">Selected range: -</span>
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <button class="tab-btn active" onclick="showTab('overview',this)" data-i18n="tabOverview">Overview</button>
+    <button class="tab-btn" onclick="showTab('revenue',this)" data-i18n="tabRevenue">Revenue Intelligence</button>
+    <button class="tab-btn" onclick="showTab('cost',this)" data-i18n="tabCost">Cost Intelligence</button>
+    <button class="tab-btn" onclick="showTab('people',this)" data-i18n="tabPeople">People Productivity</button>
+    <button class="tab-btn" onclick="showTab('ranking',this)" data-i18n="tabRanking">Club Ranking</button>
+    <button class="tab-btn" onclick="showTab('actions',this)" data-i18n="tabActions">Action Plan</button>
+  </div>
+
+  <div id="tab-overview" class="tab-page active">
+    <div class="kpis">
+      <div class="card"><div class="kpi-title" data-i18n="revenue">Revenue</div><div class="kpi-value" id="kpiRevenue">-</div><div class="kpi-sub" data-i18n="totalRevenue">Total operating revenue</div></div>
+      <div class="card"><div class="kpi-title" data-i18n="grossProfit">Gross Profit</div><div class="kpi-value" id="kpiGP">-</div><div class="kpi-sub" id="kpiGPM">Gross margin</div></div>
+      <div class="card"><div class="kpi-title">EBITDA</div><div class="kpi-value" id="kpiEBITDA">-</div><div class="kpi-sub" id="kpiEBITDAM">EBITDA margin</div></div>
+      <div class="card"><div class="kpi-title" data-i18n="payrollRatio">Payroll Ratio</div><div class="kpi-value" id="kpiPayroll">-</div><div class="kpi-sub">Payroll / Revenue</div></div>
+      <div class="card"><div class="kpi-title" data-i18n="rentRatio">Rent Ratio</div><div class="kpi-value" id="kpiRent">-</div><div class="kpi-sub">Rent / Revenue</div></div>
+      <div class="card"><div class="kpi-title" data-i18n="profitStatus">Profitability Status</div><div class="kpi-value" id="kpiStatus">-</div><div class="kpi-sub" data-i18n="basedEbitda">Based on EBITDA margin</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="section-title"><h2 data-i18n="plTrend">P&L Trend</h2><span class="tag">Revenue / Expense / EBITDA</span></div><div class="chart-box"><canvas id="trendChart"></canvas></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="costStructure">Cost Structure</h2><span class="tag" data-i18n="expenseMix">Expense mix</span></div><div class="chart-box"><canvas id="costChart"></canvas></div></div>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="section-title"><h2 data-i18n="clubEbitdaRanking">Club EBITDA Ranking</h2><span class="tag">BOD view</span></div><div class="chart-box-sm"><canvas id="clubChart"></canvas></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="marginWaterfall">Margin Waterfall</h2><span class="tag">P&L bridge</span></div><div class="chart-box-sm"><canvas id="waterfallChart"></canvas></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="managementSignals">Management Signals</h2><span class="tag">Auto insights</span></div><div class="driver-list" id="signals"></div></div>
+    </div>
+  </div>
+
+  <div id="tab-revenue" class="tab-page">
+    <div class="grid-4" id="revenueDeepCards"></div>
+    <div class="grid-2">
+      <div class="card"><div class="section-title"><h2 data-i18n="revenueByProduct">Revenue by Product</h2><span class="tag">Membership / PT / Retail</span></div><div class="chart-box"><canvas id="productChart"></canvas></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="trafficFunnel">Traffic Funnel</h2><span class="tag">Guest → Close</span></div><div class="chart-box"><canvas id="funnelChart"></canvas></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="section-title"><h2 data-i18n="sourceQuality">Source Quality</h2><span class="tag">Traffic / Conversion / Revenue</span></div><table id="sourceTable"></table></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="transactionMix">Transaction Mix</h2><span class="tag">NEW / RENEW / Reactivation</span></div><div class="chart-box-sm"><canvas id="transactionChart"></canvas></div></div>
+    </div>
+  </div>
+
+  <div id="tab-cost" class="tab-page">
+    <div class="grid-4" id="costDeepCards"></div>
+    <div class="grid-2">
+      <div class="card"><div class="section-title"><h2 data-i18n="costBreakdown">Cost Breakdown</h2><span class="tag">Fixed / Variable</span></div><div class="chart-box"><canvas id="costBreakdownChart"></canvas></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="costVariance">Cost Variance vs Budget</h2><span class="tag">Control gap</span></div><div class="chart-box"><canvas id="varianceChart"></canvas></div></div>
+    </div>
+    <div class="card"><div class="section-title"><h2 data-i18n="costTable">Cost Table</h2><span class="tag">Department / Expense</span></div><table id="costTable"></table></div>
+  </div>
+
+  <div id="tab-people" class="tab-page">
+    <div class="grid-4" id="peopleCards"></div>
+    <div class="grid-2">
+      <div class="card"><div class="section-title"><h2 data-i18n="headcountDept">Headcount by Department</h2><span class="tag">Staff structure</span></div><div class="chart-box"><canvas id="headcountChart"></canvas></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="revEmployee">Revenue per Employee</h2><span class="tag">Productivity</span></div><div class="chart-box"><canvas id="revEmployeeChart"></canvas></div></div>
+    </div>
+    <div class="card"><div class="section-title"><h2 data-i18n="staffTable">Staff Productivity Table</h2><span class="tag">GM control</span></div><table id="peopleTable"></table></div>
+  </div>
+
+  <div id="tab-ranking" class="tab-page">
+    <div class="grid-2">
+      <div class="card"><div class="section-title"><h2 data-i18n="clubRanking">Club Ranking</h2><span class="tag">Revenue / EBITDA / Margin</span></div><div class="chart-box"><canvas id="rankingChart"></canvas></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="riskRanking">Risk Ranking</h2><span class="tag">Low margin / high cost</span></div><table id="riskTable"></table></div>
+    </div>
+    <div class="card"><div class="section-title"><h2 data-i18n="plTableByClub">P&L Table by Club</h2><span class="tag">Financial detail</span></div><table id="plTable"></table></div>
+  </div>
+
+  <div id="tab-actions" class="tab-page">
+    <div class="grid-3">
+      <div class="card"><div class="section-title"><h2 data-i18n="profitDrivers">Top Profit Drivers</h2><span class="tag">Scale</span></div><div class="driver-list" id="profitDrivers"></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="costLeakages">Cost Leakages</h2><span class="tag">Fix</span></div><div class="driver-list" id="costLeakages"></div></div>
+      <div class="card"><div class="section-title"><h2 data-i18n="gmActions">GM Recommended Actions</h2><span class="tag">Next 7 days</span></div><div class="driver-list" id="gmActions"></div></div>
+    </div>
+    <div class="card"><div class="section-title"><h2 data-i18n="dataNotes">Data Notes / Next Step</h2><span class="tag">Prototype</span></div><div class="mini" id="dataNotesText"></div></div>
+  </div>
 </div>
 
 <script>
-const slides = Array.from(document.querySelectorAll('.slide'));
-let currentSlide = 0;
-let currentReveal = 0;
+const CLUBS = ["AMU", "AMY", "BDS", "CA360", "CPT", "CTC", "CVC", "DNG", "FDC", "Fin Serve", "Fin ser", "GDC", "GMC", "GVC", "HDC", "HDY", "HVP", "JCQ", "JVJ", "LMC", "LTC", "MAC", "MPC", "NTC", "PBH", "PCH", "PCO", "PPC", "RCC", "SCC", "SCT", "TCM", "TDC", "TDU", "TDY", "TTC", "VMC", "VSC", "VTC", "VVO", "WPC"];
+const CLUB_REGION = {"AMU": "South", "AMY": "South", "BDS": "South", "CA360": "CA360", "CPT": "North", "CTC": "South", "CVC": "", "DNG": "Central", "FDC": "South", "Fin Serve": "Fin Serve", "Fin ser": "Fin ser", "GDC": "South", "GMC": "South", "GVC": "South", "HDC": "HDC VTC", "HDY": "North", "HVP": "South", "JCQ": "South", "JVJ": "South", "LMC": "South", "LTC": "South", "MAC": "North", "MPC": "North", "NTC": "Central", "PBH": "South", "PCH": "North", "PCO": "South", "PPC": "South", "RCC": "North", "SCC": "South", "SCT": "North", "TCM": "North", "TDC": "South", "TDU": "South", "TDY": "South", "TTC": "Dean", "VMC": "South", "VSC": "North", "VTC": "HDC VTC", "VVO": "South", "WPC": "North"};
 
-function getReveals(){
-  return Array.from(slides[currentSlide].querySelectorAll('.reveal'));
-}
-
-function resetSlide(index){
-  const reveals = Array.from(slides[index].querySelectorAll('.reveal'));
-  reveals.forEach(el => el.classList.remove('show'));
-}
-
-function showSlide(index){
-  slides.forEach((s, i) => {
-    s.classList.toggle('active', i === index);
-  });
-
-  currentSlide = Math.max(0, Math.min(index, slides.length - 1));
-  currentReveal = 0;
-
-  const reveals = getReveals();
-  reveals.forEach(el => el.classList.remove('show'));
-
-  // Show first item automatically so slide never looks empty
-  if(reveals.length){
-    setTimeout(() => {
-      reveals[0].classList.add('show');
-      Array.from(reveals[0].children || []).forEach(child => child.classList.add('show'));
-      currentReveal = 1;
-    }, 80);
+const I18N = {
+  en: {
+    loginTitle:'P&L Dashboard', loginSub:'Role-based demo: BOD can view all clubs, each Club user can view only assigned club.',
+    username:'Username', password:'Password', login:'Login', loginError:'Incorrect username or password.',
+    kicker:'Commercial Finance Intelligence', headerSub:'Role-based P&L view • Club profitability • Revenue, cost, EBITDA and margin control',
+    logout:'Logout', mockNote:'Demo data uses exact club list from uploaded sample. Some clubs are profitable, some are loss-making.',
+    fromDate:'From Date', toDate:'To Date', region:'Region', club:'Club', view:'View', apply:'Apply', reset:'Reset',
+    thisMonth:'This Month', lastMonth:'Last Month', last7:'Last 7 Days', last30:'Last 30 Days', ytd:'YTD', allTime:'All Time',
+    tabOverview:'Overview', tabRevenue:'Revenue Intelligence', tabCost:'Cost Intelligence', tabPeople:'People Productivity', tabRanking:'Club Ranking', tabActions:'Action Plan',
+    revenue:'Revenue', totalRevenue:'Total operating revenue', grossProfit:'Gross Profit', payrollRatio:'Payroll Ratio', rentRatio:'Rent Ratio', profitStatus:'Profitability Status',
+    basedEbitda:'Based on EBITDA margin', plTrend:'P&L Trend', costStructure:'Cost Structure', expenseMix:'Expense mix', clubEbitdaRanking:'Club EBITDA Ranking',
+    marginWaterfall:'Margin Waterfall', managementSignals:'Management Signals', revenueByProduct:'Revenue by Product', trafficFunnel:'Traffic Funnel',
+    sourceQuality:'Source Quality', transactionMix:'Transaction Mix', costBreakdown:'Cost Breakdown', costVariance:'Cost Variance vs Budget', costTable:'Cost Table',
+    headcountDept:'Headcount by Department', revEmployee:'Revenue per Employee', staffTable:'Staff Productivity Table', clubRanking:'Club Ranking', riskRanking:'Risk Ranking',
+    plTableByClub:'P&L Table by Club', profitDrivers:'Top Profit Drivers', costLeakages:'Cost Leakages', gmActions:'GM Recommended Actions', dataNotes:'Data Notes / Next Step',
+    selectedRange:'Selected range', accessAll:'You can view all clubs.', accessClub:'You can only view', healthy:'Healthy', watch:'Watch', risk:'Risk',
+    allRegions:'All Regions', allClubs:'All Clubs'
+  },
+  vi: {
+    loginTitle:'Dashboard P&L', loginSub:'Demo phân quyền: BOD xem toàn bộ hệ thống, Club user chỉ xem club được phân quyền.',
+    username:'Tên đăng nhập', password:'Mật khẩu', login:'Đăng nhập', loginError:'Sai username hoặc password.',
+    kicker:'Commercial Finance Intelligence', headerSub:'P&L theo phân quyền • Lợi nhuận club • Doanh thu, chi phí, EBITDA và biên lợi nhuận',
+    logout:'Đăng xuất', mockNote:'Dữ liệu demo dùng đúng danh sách club từ sample. Có club lời và có club lỗ.',
+    fromDate:'Từ ngày', toDate:'Đến ngày', region:'Vùng', club:'Câu lạc bộ', view:'Cách xem', apply:'Áp dụng', reset:'Reset',
+    thisMonth:'Tháng này', lastMonth:'Tháng trước', last7:'7 ngày gần nhất', last30:'30 ngày gần nhất', ytd:'YTD', allTime:'Toàn thời gian',
+    tabOverview:'Tổng quan', tabRevenue:'Phân tích doanh thu', tabCost:'Phân tích chi phí', tabPeople:'Hiệu suất nhân sự', tabRanking:'Xếp hạng club', tabActions:'Kế hoạch hành động',
+    revenue:'Doanh thu', totalRevenue:'Tổng doanh thu vận hành', grossProfit:'Lợi nhuận gộp', payrollRatio:'Tỷ lệ lương', rentRatio:'Tỷ lệ thuê mặt bằng', profitStatus:'Tình trạng lợi nhuận',
+    basedEbitda:'Dựa trên EBITDA margin', plTrend:'Xu hướng P&L', costStructure:'Cơ cấu chi phí', expenseMix:'Cơ cấu expense', clubEbitdaRanking:'Xếp hạng EBITDA Club',
+    marginWaterfall:'Waterfall lợi nhuận', managementSignals:'Tín hiệu quản trị', revenueByProduct:'Doanh thu theo sản phẩm', trafficFunnel:'Phễu traffic',
+    sourceQuality:'Chất lượng nguồn khách', transactionMix:'Cơ cấu giao dịch', costBreakdown:'Breakdown chi phí', costVariance:'Chi phí lệch Budget', costTable:'Bảng chi phí',
+    headcountDept:'Nhân sự theo bộ phận', revEmployee:'Doanh thu / nhân viên', staffTable:'Bảng hiệu suất nhân sự', clubRanking:'Xếp hạng club', riskRanking:'Xếp hạng rủi ro',
+    plTableByClub:'Bảng P&L theo club', profitDrivers:'Driver tạo lợi nhuận', costLeakages:'Rò rỉ chi phí', gmActions:'Hành động đề xuất cho GM', dataNotes:'Ghi chú dữ liệu / Bước tiếp theo',
+    selectedRange:'Khoảng thời gian', accessAll:'Bạn có thể xem toàn bộ club.', accessClub:'Bạn chỉ có thể xem', healthy:'Khỏe', watch:'Theo dõi', risk:'Rủi ro',
+    allRegions:'Tất cả vùng', allClubs:'Tất cả club'
   }
+};
 
-  updateProgress();
-  fitDeckToViewport();
-}
+let LANG = localStorage.getItem('cali_pl_lang') || 'en';
+let currentUser = null;
+let charts = {};
 
-function nextStep(){
-  const reveals = getReveals();
-
-  if(currentReveal < reveals.length){
-    reveals[currentReveal].classList.add('show');
-    Array.from(reveals[currentReveal].children || []).forEach(child => child.classList.add('show'));
-    currentReveal++;
-    return;
-  }
-
-  if(currentSlide < slides.length - 1){
-    showSlide(currentSlide + 1);
-  }
-}
-
-function prevSlide(){
-  if(currentSlide > 0){
-    showSlide(currentSlide - 1);
-  }
-}
-
-function updateProgress(){
-  const pct = ((currentSlide + 1) / slides.length) * 100;
-  document.getElementById('progress').style.width = pct + '%';
-  document.getElementById('counter').textContent = String(currentSlide + 1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0');
-}
-
-// Click anywhere to reveal next line / next slide
-document.addEventListener('click', (e) => {
-  if(e.target.closest('button')) return;
-  nextStep();
+const USERS = {};
+USERS['bod'] = { password:'123456', role:'BOD', name:'BOD / Executive', clubs:['ALL'] };
+CLUBS.forEach(c => {
+  const key = loginKey(c);
+  USERS[key] = { password:'123456', role:'CLUB', name:c + ' Club User', clubs:[c] };
 });
 
-// Keyboard control
-document.addEventListener('keydown', (e) => {
-  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){
-    e.preventDefault();
-    nextStep();
-  }
+const PRODUCTS = ['Membership','PT','Retail','Supplement','ProPhysio','Hypoxi'];
+const SOURCES = ['Walk-in','Referral','Digital','Database','Corporate','Event'];
+const DEPTS = ['Sales','PT','GX/Yoga','MS','Ops','Admin'];
+const LOSS_CLUBS = new Set(['VMC','LTC','TDY','JCQ','CVC','SCC','PPC','CA360','Fin Serve','Fin ser','JVJ','VTC']);
+const HIGH_PROFIT_CLUBS = new Set(['PCO','VVO','TTC','GVC','MAC','RCC','CPT','AMU']);
+const DATA = [];
 
-  if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){
-    e.preventDefault();
-    prevSlide();
-  }
+function loginKey(v){ return String(v).toLowerCase().replace(/[^a-z0-9]/g,''); }
+function t(k){ return I18N[LANG][k] || I18N.en[k] || k; }
 
-  if(e.key.toLowerCase() === 'p'){
-    window.print();
-  }
-  if(e.key === 'Escape' && document.body.classList.contains('mobile-pseudo-fullscreen')){
-    exitPseudoFullscreen();
-  }
-});
+function seedData(){
+  const start = new Date('2026-01-01');
+  CLUBS.forEach((club, idx) => {
+    for(let m=0; m<6; m++){
+      const date = new Date(start.getFullYear(), start.getMonth()+m, 1);
+      const region = CLUB_REGION[club] || 'Blank';
+      let revenueBase = 3500 + (idx%11)*260 + m*180;
+      if(HIGH_PROFIT_CLUBS.has(club)) revenueBase *= 1.35;
+      if(LOSS_CLUBS.has(club)) revenueBase *= 0.70;
+      if(region === 'North') revenueBase *= 1.05;
+      if(region === 'Central') revenueBase *= 0.92;
+      if(region === 'CA360' || region === 'Fin Serve' || region === 'Fin ser') revenueBase *= 0.45;
 
+      const revenue = Math.round(revenueBase);
+      let cogsR = 0.11 + (idx%4)*0.008;
+      let payrollR = 0.25 + (idx%5)*0.012;
+      let rentR = 0.16 + (idx%4)*0.014;
+      let marketingR = 0.04 + (m%2)*0.007;
+      let utilityR = 0.032;
+      let otherR = 0.11 + (idx%6)*0.009;
 
-function fitDeckToViewport(){
-  const slideW = 1600;
-  const slideH = 900;
-
-  const desktopFull = document.body.classList.contains('presentation-fullscreen');
-  const mobileFull = document.body.classList.contains('mobile-pseudo-fullscreen');
-  const isFull = desktopFull || mobileFull;
-
-  const vv = window.visualViewport;
-  const viewportW = vv ? vv.width : window.innerWidth;
-  const viewportH = vv ? vv.height : window.innerHeight;
-
-  const isPortrait = viewportH >= viewportW;
-  const isMobile = viewportW < 1000 || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-
-  let scale = 1;
-  let fullscreenScale = 1;
-  let mobileLandscapeScale = 1;
-  let mobilePortraitScale = 1;
-
-  if(desktopFull){
-    // Desktop fullscreen must always contain the whole slide.
-    fullscreenScale = Math.min(viewportW / slideW, viewportH / slideH) * 0.985;
-    scale = fullscreenScale;
-  }else if(mobileFull){
-    // Landscape: fill screen like video cover mode.
-    mobileLandscapeScale = Math.max(viewportW / slideW, viewportH / slideH) * 1.002;
-
-    // Portrait: show full slide without cropping. This is the only way to keep all content visible.
-    mobilePortraitScale = Math.min(viewportW / slideW, viewportH / slideH) * 0.985;
-
-    scale = isPortrait ? mobilePortraitScale : mobileLandscapeScale;
-    fullscreenScale = scale;
-  }else{
-    // Normal web mode: fit to available width.
-    scale = Math.min((viewportW - 24) / slideW, 1);
-    fullscreenScale = scale;
-    mobileLandscapeScale = scale;
-    mobilePortraitScale = scale;
-  }
-
-  document.documentElement.style.setProperty('--scale', scale);
-  document.documentElement.style.setProperty('--fullscreen-scale', fullscreenScale);
-  document.documentElement.style.setProperty('--mobile-landscape-scale', mobileLandscapeScale);
-  document.documentElement.style.setProperty('--mobile-portrait-scale', mobilePortraitScale);
-  document.documentElement.style.setProperty('--cover-scale', mobileLandscapeScale);
-  document.documentElement.style.setProperty('--portrait-scale', mobilePortraitScale);
-
-  document.querySelectorAll('.slide').forEach(slide => {
-    slide.style.marginBottom = isFull ? '0px' : ((slideH * scale) - slideH) + 'px';
-  });
-
-  const deck = document.querySelector('.deck');
-  if(deck){
-    deck.style.minHeight = isFull ? '100vh' : (slideH * scale + 150) + 'px';
-  }
-
-  // No forced rotate overlay; portrait and landscape both work.
-  const rotate = document.getElementById('rotateDevice');
-  if(rotate) rotate.classList.remove('show');
-
-  const hint = document.getElementById('mobileHint');
-  if(hint && mobileFull){
-    hint.textContent = isPortrait
-      ? 'Portrait fit mode: full slide visible.'
-      : 'Landscape immersive mode: full screen.';
-  }
-}
-
-
-if(window.visualViewport){
-  window.visualViewport.addEventListener('resize', fitDeckToViewport);
-  window.visualViewport.addEventListener('scroll', fitDeckToViewport);
-}
-
-window.addEventListener('resize', fitDeckToViewport);
-window.addEventListener('orientationchange', () => {
-  setTimeout(fitDeckToViewport, 100);
-  setTimeout(fitDeckToViewport, 350);
-  setTimeout(fitDeckToViewport, 800);
-});
-fitDeckToViewport();
-
-
-
-
-function isMobileDevice(){
-  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
-}
-
-function showMobileHint(){
-  const hint = document.getElementById('mobileHint');
-  if(!hint) return;
-  hint.classList.add('show');
-  setTimeout(() => hint.classList.remove('show'), 2600);
-}
-
-function enterPseudoFullscreen(){
-  document.body.classList.add('mobile-pseudo-fullscreen');
-  const btn = document.getElementById('fullscreenBtn');
-  if(btn){
-    btn.textContent = 'Exit Full Screen';
-    btn.classList.add('active');
-  }
-  window.scrollTo(0,0);
-  showMobileHint();
-  setTimeout(fitDeckToViewport, 120);
-  setTimeout(fitDeckToViewport, 350);
-}
-
-function exitPseudoFullscreen(){
-  document.body.classList.remove('mobile-pseudo-fullscreen');
-  const btn = document.getElementById('fullscreenBtn');
-  if(btn){
-    btn.textContent = 'Full Screen';
-    btn.classList.remove('active');
-  }
-  setTimeout(fitDeckToViewport, 80);
-  setTimeout(fitDeckToViewport, 300);
-  setTimeout(fitDeckToViewport, 700);
-}
-
-async function toggleFullscreen(){
-  const btn = document.getElementById('fullscreenBtn');
-
-  // iOS Safari / many in-app browsers do not allow Fullscreen API for normal HTML.
-  // Use a reliable pseudo-fullscreen presentation mode instead.
-  if(isMobileDevice()){
-    if(document.body.classList.contains('mobile-pseudo-fullscreen')){
-      exitPseudoFullscreen();
-    }else{
-      enterPseudoFullscreen();
-    }
-    return;
-  }
-
-  const root = document.documentElement;
-
-  if(!document.fullscreenElement){
-    try{
-      await root.requestFullscreen();
-      document.body.classList.add('presentation-fullscreen');
-      if(btn){
-        btn.textContent = 'Exit Full Screen';
-        btn.classList.add('active');
+      if(HIGH_PROFIT_CLUBS.has(club)){
+        payrollR -= 0.035; rentR -= 0.018; otherR -= 0.02;
       }
-      fitDeckToViewport();
-    }catch(err){
-      document.body.classList.toggle('presentation-fullscreen');
-      const active = document.body.classList.contains('presentation-fullscreen');
-      if(btn){
-        btn.textContent = active ? 'Exit Full Screen' : 'Full Screen';
-        btn.classList.toggle('active', active);
+      if(LOSS_CLUBS.has(club)){
+        payrollR += 0.13; rentR += 0.09; otherR += 0.08; marketingR += 0.025;
       }
-      fitDeckToViewport();
+
+      const cogs = Math.round(revenue*cogsR);
+      const payroll = Math.round(revenue*payrollR);
+      const rent = Math.round(revenue*rentR);
+      const marketing = Math.round(revenue*marketingR);
+      const utilities = Math.round(revenue*utilityR);
+      const otherOpex = Math.round(revenue*otherR);
+
+      const traffic = Math.round((650 + (idx%13)*35 + m*25) * (LOSS_CLUBS.has(club)?0.75:1));
+      const appt = Math.round(traffic*(0.38+(idx%4)*0.025));
+      const show = Math.round(appt*(0.68+(m%2)*0.04));
+      const close = Math.round(show*(HIGH_PROFIT_CLUBS.has(club)?0.34:LOSS_CLUBS.has(club)?0.19:0.27));
+
+      const headcount = {
+        Sales: 7 + idx%4,
+        PT: 10 + idx%6,
+        'GX/Yoga': 5 + idx%4,
+        MS: 6 + idx%3,
+        Ops: 5 + idx%2,
+        Admin: 2 + idx%2
+      };
+      if(LOSS_CLUBS.has(club)){ headcount.Sales += 2; headcount.PT += 2; headcount.Ops += 1; }
+
+      DATA.push({
+        date:date.toISOString().slice(0,10), month:date.toISOString().slice(0,7), club, region,
+        revenue,cogs,payroll,rent,marketing,utilities,otherOpex,traffic,appt,show,close,headcount
+      });
     }
-  }else{
-    document.exitFullscreen?.();
-  }
-}
-
-document.addEventListener('fullscreenchange', () => {
-  const btn = document.getElementById('fullscreenBtn');
-  const isFull = !!document.fullscreenElement;
-  document.body.classList.toggle('presentation-fullscreen', isFull);
-  if(btn && !isMobileDevice()){
-    btn.textContent = isFull ? 'Exit Full Screen' : 'Full Screen';
-    btn.classList.toggle('active', isFull);
-  }
-  setTimeout(fitDeckToViewport, 120);
-});
-
-
-/* Animated ecosystem particle network */
-const canvasStates = new WeakMap();
-function initCanvas(canvas){
-  const ctx = canvas.getContext('2d');
-  const slide = canvas.closest('.slide');
-  const isDark = slide && slide.dataset.theme === 'dark';
-  const state = {ctx, points:[], isDark};
-  const count = isDark ? 62 : 48;
-  for(let i=0;i<count;i++){
-    state.points.push({
-      x:Math.random()*1600, y:Math.random()*900,
-      vx:(Math.random()-.5)*0.35, vy:(Math.random()-.5)*0.35
-    });
-  }
-  canvas.width=1600; canvas.height=900;
-  canvasStates.set(canvas,state);
-}
-function drawCanvas(canvas){
-  const s = canvasStates.get(canvas); if(!s) return;
-  const ctx=s.ctx; ctx.clearRect(0,0,1600,900);
-  const maxDist=s.isDark?150:125;
-  for(const p of s.points){
-    p.x+=p.vx; p.y+=p.vy;
-    if(p.x<-40)p.x=1640; if(p.x>1640)p.x=-40;
-    if(p.y<-40)p.y=940; if(p.y>940)p.y=-40;
-  }
-  for(let i=0;i<s.points.length;i++){
-    for(let j=i+1;j<s.points.length;j++){
-      const a=s.points[i], b=s.points[j];
-      const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
-      if(d<maxDist){
-        const alpha=(1-d/maxDist)*(s.isDark?.28:.18);
-        ctx.strokeStyle='rgba(227,6,19,'+alpha+')';
-        ctx.lineWidth=s.isDark?1.2:1;
-        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-      }
-    }
-  }
-  for(const p of s.points){
-    const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,10);
-    grd.addColorStop(0,'rgba(227,6,19,'+(s.isDark?.85:.48)+')');
-    grd.addColorStop(1,'rgba(227,6,19,0)');
-    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(p.x,p.y,10,0,Math.PI*2); ctx.fill();
-  }
-}
-function animateCanvas(){
-  const active=document.querySelector('.slide.active .ecosystem-canvas');
-  if(active) drawCanvas(active);
-  requestAnimationFrame(animateCanvas);
-}
-document.querySelectorAll('.ecosystem-canvas').forEach(initCanvas);
-animateCanvas();
-
-function applyStagger(){
-  document.querySelectorAll('.card-grid,.architecture,.pill-row,.loop').forEach(group=>{
-    Array.from(group.children).forEach((el,i)=>{el.style.transitionDelay=(i*65)+'ms';});
   });
 }
-applyStagger();
+seedData();
 
+function applyLang(){
+  document.documentElement.lang = LANG === 'vi' ? 'vi' : 'en';
+  document.getElementById('langBtn').textContent = LANG === 'en' ? 'VI' : 'EN';
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  updateAccessText();
+  refreshRegionFilter(false);
+  refreshClubFilter(false);
+  if(currentUser) render(false);
+}
+function toggleLang(){
+  LANG = LANG === 'en' ? 'vi' : 'en';
+  localStorage.setItem('cali_pl_lang', LANG);
+  applyLang();
+}
 
-/* Double tap anywhere to toggle fullscreen on mobile */
-let lastTap = 0;
+function fmtMoney(v){
+  const sign = v < 0 ? '-' : '';
+  v = Math.abs(v || 0);
+  return sign + (v >= 1000 ? (v/1000).toFixed(1)+'B' : v.toFixed(0)+'M');
+}
+function pct(v){ return isFinite(v) ? (v*100).toFixed(1)+'%' : '-'; }
+function sum(rows,key){ return rows.reduce((a,r)=>a+(r[key]||0),0); }
+function calc(rows){
+  const revenue=sum(rows,'revenue'), cogs=sum(rows,'cogs'), payroll=sum(rows,'payroll'), rent=sum(rows,'rent');
+  const marketing=sum(rows,'marketing'), utilities=sum(rows,'utilities'), otherOpex=sum(rows,'otherOpex');
+  const gp=revenue-cogs, expense=cogs+payroll+rent+marketing+utilities+otherOpex, ebitda=revenue-expense;
+  return {revenue,cogs,payroll,rent,marketing,utilities,otherOpex,gp,expense,ebitda,traffic:sum(rows,'traffic'),appt:sum(rows,'appt'),show:sum(rows,'show'),close:sum(rows,'close')};
+}
+function inRange(r){
+  const f=document.getElementById('fromDate').value || '1900-01-01';
+  const to=document.getElementById('toDate').value || '2999-12-31';
+  return r.date >= f && r.date <= to;
+}
+function allowedClubList(){
+  if(!currentUser) return [];
+  if(currentUser.role === 'BOD') return CLUBS.slice();
+  return currentUser.clubs.slice();
+}
+function filteredRows(){
+  if(!currentUser) return [];
+  const region = document.getElementById('regionFilter').value;
+  const club = document.getElementById('clubFilter').value;
+  let rows = DATA.filter(inRange).filter(r => allowedClubList().includes(r.club));
+  if(region !== 'ALL') rows = rows.filter(r => (r.region || 'Blank') === region);
+  if(club !== 'ALL') rows = rows.filter(r => r.club === club);
+  return rows;
+}
 
-document.addEventListener('touchend', (e) => {
-  const now = Date.now();
-  const diff = now - lastTap;
+function refreshRegionFilter(keep=true){
+  const el = document.getElementById('regionFilter');
+  if(!el || !currentUser) return;
+  const old = el.value;
+  const regs = [...new Set(allowedClubList().map(c => CLUB_REGION[c] || 'Blank'))].sort();
+  el.innerHTML = `<option value="ALL">${t('allRegions')}</option>` + regs.map(r=>`<option value="${r}">${r}</option>`).join('');
+  if(keep && [...el.options].some(o=>o.value===old)) el.value = old;
+  if(currentUser.role !== 'BOD') el.disabled = true;
+}
+function refreshClubFilter(keep=true){
+  const el = document.getElementById('clubFilter');
+  if(!el || !currentUser) return;
+  const old = el.value;
+  const region = document.getElementById('regionFilter').value || 'ALL';
+  let list = allowedClubList();
+  if(region !== 'ALL') list = list.filter(c => (CLUB_REGION[c] || 'Blank') === region);
+  el.innerHTML = (currentUser.role === 'BOD' ? `<option value="ALL">${t('allClubs')}</option>` : '') + list.map(c=>`<option value="${c}">${c}</option>`).join('');
+  if(keep && [...el.options].some(o=>o.value===old)) el.value = old;
+  el.disabled = currentUser.role !== 'BOD';
+}
 
-  if(diff < 280 && diff > 0){
-    if(window.innerWidth < 1000){
-      toggleFullscreen();
-    }
+function setPreset(type){
+  const today = new Date('2026-06-02');
+  let from,to; const iso=d=>d.toISOString().slice(0,10);
+  if(type==='thisMonth'){from=new Date(today.getFullYear(),today.getMonth(),1);to=today;}
+  if(type==='lastMonth'){from=new Date(today.getFullYear(),today.getMonth()-1,1);to=new Date(today.getFullYear(),today.getMonth(),0);}
+  if(type==='last7'){from=new Date(today);from.setDate(today.getDate()-6);to=today;}
+  if(type==='last30'){from=new Date(today);from.setDate(today.getDate()-29);to=today;}
+  if(type==='ytd'){from=new Date(today.getFullYear(),0,1);to=today;}
+  if(type==='all'){from=new Date('2026-01-01');to=today;}
+  document.getElementById('fromDate').value = iso(from);
+  document.getElementById('toDate').value = iso(to);
+  render();
+}
+function resetFilters(){
+  refreshRegionFilter(false); refreshClubFilter(false);
+  document.getElementById('viewMode').value = 'monthly';
+  setPreset('ytd');
+}
+
+function makeChart(id, config){
+  const canvas = document.getElementById(id);
+  if(!canvas) return;
+  if(charts[id]) charts[id].destroy();
+  charts[id] = new Chart(canvas, config);
+}
+function moneyAxisOpts(){
+  return {responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}}, scales:{y:{ticks:{callback:v=>fmtMoney(v)}}}};
+}
+function showTab(name, btn){
+  document.querySelectorAll('.tab-page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  setTimeout(()=>render(false),0);
+}
+function getClubAgg(rows){
+  return allowedClubList().map(club=>{ const c=calc(rows.filter(r=>r.club===club)); return {club, region:CLUB_REGION[club]||'Blank', ...c, margin:c.revenue?c.ebitda/c.revenue:0}; })
+    .filter(x=>x.revenue>0).sort((a,b)=>b.ebitda-a.ebitda);
+}
+function splitValues(total, keys, weights){
+  const s=weights.reduce((a,b)=>a+b,0);
+  return keys.map((k,i)=>({k,v:Math.round(total*weights[i]/s)}));
+}
+
+function render(){
+  if(!currentUser) return;
+  const rows = filteredRows();
+  const c = calc(rows);
+  renderOverview(rows,c);
+  renderRevenue(rows,c);
+  renderCost(rows,c);
+  renderPeople(rows,c);
+  renderRanking(rows,c);
+  renderActions(rows,c);
+}
+
+function renderOverview(rows,c){
+  const margin = c.revenue ? c.ebitda/c.revenue : 0;
+  document.getElementById('rangeNote').textContent = `${t('selectedRange')}: ${document.getElementById('fromDate').value} → ${document.getElementById('toDate').value}`;
+  document.getElementById('kpiRevenue').textContent = fmtMoney(c.revenue);
+  document.getElementById('kpiGP').textContent = fmtMoney(c.gp);
+  document.getElementById('kpiGPM').textContent = `Gross margin: ${pct(c.gp/c.revenue)}`;
+  document.getElementById('kpiEBITDA').textContent = fmtMoney(c.ebitda);
+  document.getElementById('kpiEBITDA').className = 'kpi-value ' + (c.ebitda>=0?'good':'bad');
+  document.getElementById('kpiEBITDAM').textContent = `EBITDA margin: ${pct(margin)}`;
+  document.getElementById('kpiPayroll').textContent = pct(c.payroll/c.revenue);
+  document.getElementById('kpiRent').textContent = pct(c.rent/c.revenue);
+  document.getElementById('kpiStatus').textContent = margin >= .12 ? t('healthy') : margin >= .04 ? t('watch') : t('risk');
+  document.getElementById('kpiStatus').className = 'kpi-value ' + (margin>=.12?'good':margin>=.04?'warn':'bad');
+
+  const byMonth = {};
+  rows.forEach(r=>{ byMonth[r.month] ||= {revenue:0,expense:0,ebitda:0}; const ex=r.cogs+r.payroll+r.rent+r.marketing+r.utilities+r.otherOpex; byMonth[r.month].revenue += r.revenue; byMonth[r.month].expense += ex; byMonth[r.month].ebitda += r.revenue-ex; });
+  const labels = Object.keys(byMonth).sort();
+  makeChart('trendChart', {type:'bar', data:{labels, datasets:[
+    {label:'Revenue', data:labels.map(x=>byMonth[x].revenue), borderWidth:1},
+    {label:'Expense', data:labels.map(x=>byMonth[x].expense), borderWidth:1},
+    {label:'EBITDA', data:labels.map(x=>byMonth[x].ebitda), type:'line', tension:.35, borderWidth:3}
+  ]}, options:moneyAxisOpts()});
+
+  makeChart('costChart', {type:'doughnut', data:{labels:['COGS','Payroll','Rent','Marketing','Utilities','Other OPEX'], datasets:[{data:[c.cogs,c.payroll,c.rent,c.marketing,c.utilities,c.otherOpex]}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+
+  const clubAgg = getClubAgg(rows);
+  makeChart('clubChart', {type:'bar', data:{labels:clubAgg.map(x=>x.club), datasets:[{label:'EBITDA', data:clubAgg.map(x=>x.ebitda), borderWidth:1}]}, options:{...moneyAxisOpts(), indexAxis:'y', plugins:{legend:{display:false}}}});
+
+  const bridge = [['Revenue',c.revenue],['COGS',-c.cogs],['Payroll',-c.payroll],['Rent',-c.rent],['Mktg',-c.marketing],['Utilities',-c.utilities],['Other',-c.otherOpex],['EBITDA',c.ebitda]];
+  makeChart('waterfallChart', {type:'bar', data:{labels:bridge.map(x=>x[0]), datasets:[{label:'P&L Bridge', data:bridge.map(x=>x[1]), borderWidth:1}]}, options:{...moneyAxisOpts(), plugins:{legend:{display:false}}}});
+  renderSignals(c,clubAgg);
+}
+
+function renderRevenue(rows,c){
+  const prod = splitValues(c.revenue, PRODUCTS, [48,28,6,7,8,3]);
+  const source = splitValues(c.revenue, SOURCES, [18,22,20,24,10,6]);
+  const trans = splitValues(c.revenue, ['NEW','RENEW','UPGRADE','REACTIVATION'], [38,34,16,12]);
+
+  document.getElementById('revenueDeepCards').innerHTML = [
+    ['Traffic', c.traffic, 'Total guest traffic'],
+    ['Show Rate', pct(c.show/c.appt), 'Show / Appointment'],
+    ['Close Rate', pct(c.close/c.show), 'Closed / Show'],
+    ['ACV', fmtMoney(c.close ? c.revenue/c.close : 0), 'Revenue / Closed deal']
+  ].map(x=>`<div class="deep-card"><b>${x[0]}</b><div class="big">${x[1]}</div><div class="small">${x[2]}</div></div>`).join('');
+
+  makeChart('productChart', {type:'bar', data:{labels:prod.map(x=>x.k), datasets:[{label:'Revenue', data:prod.map(x=>x.v), borderWidth:1}]}, options:moneyAxisOpts()});
+  makeChart('funnelChart', {type:'bar', data:{labels:['Traffic','Appointment','Show','Close'], datasets:[{label:'Count', data:[c.traffic,c.appt,c.show,c.close], borderWidth:1}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+  makeChart('transactionChart', {type:'doughnut', data:{labels:trans.map(x=>x.k), datasets:[{data:trans.map(x=>x.v)}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+
+  let html = '<tr><th>Source</th><th class="num">Traffic</th><th class="num">Revenue</th><th class="num">Close Rate</th><th class="num">Rev / Guest</th></tr>';
+  source.forEach((s,i)=>{ const traffic=Math.round(c.traffic*[.18,.20,.22,.24,.10,.06][i]); html += `<tr><td><b>${s.k}</b></td><td class="num">${traffic}</td><td class="num">${fmtMoney(s.v)}</td><td class="num">${pct(.18+i*.012)}</td><td class="num">${fmtMoney(traffic?s.v/traffic:0)}</td></tr>`; });
+  document.getElementById('sourceTable').innerHTML = html;
+}
+
+function renderCost(rows,c){
+  document.getElementById('costDeepCards').innerHTML = [
+    ['Payroll / Rev', pct(c.payroll/c.revenue), 'Staff cost control'],
+    ['Rent / Rev', pct(c.rent/c.revenue), 'Location pressure'],
+    ['Fixed Cost', fmtMoney(c.rent + c.payroll*.55), 'Rent + fixed payroll'],
+    ['Cost / Visit', fmtMoney(c.expense/(c.traffic*2.4)), 'Expense / estimated visits']
+  ].map(x=>`<div class="deep-card"><b>${x[0]}</b><div class="big">${x[1]}</div><div class="small">${x[2]}</div></div>`).join('');
+
+  const costs = [['COGS',c.cogs],['Payroll',c.payroll],['Rent',c.rent],['Marketing',c.marketing],['Utilities',c.utilities],['Other OPEX',c.otherOpex]];
+  makeChart('costBreakdownChart', {type:'bar', data:{labels:costs.map(x=>x[0]), datasets:[{label:'Cost', data:costs.map(x=>x[1]), borderWidth:1}]}, options:moneyAxisOpts()});
+  makeChart('varianceChart', {type:'bar', data:{labels:costs.map(x=>x[0]), datasets:[{label:'Actual vs Budget Variance', data:costs.map((x,i)=>Math.round(x[1]*([.03,-.02,.05,.11,-.01,.07][i]))), borderWidth:1}]}, options:moneyAxisOpts()});
+
+  document.getElementById('costTable').innerHTML = '<tr><th>Cost Line</th><th class="num">Amount</th><th class="num">% Revenue</th><th class="num">Variance</th><th>Status</th></tr>' + costs.map((x,i)=>{ const variance=Math.round(x[1]*([.03,-.02,.05,.11,-.01,.07][i])); return `<tr><td><b>${x[0]}</b></td><td class="num">${fmtMoney(x[1])}</td><td class="num">${pct(x[1]/c.revenue)}</td><td class="num ${variance>0?'bad':'good'}">${fmtMoney(variance)}</td><td>${variance>0?'Over budget':'Controlled'}</td></tr>`; }).join('');
+}
+
+function renderPeople(rows,c){
+  const hc = {}; DEPTS.forEach(d=>hc[d]=0);
+  rows.forEach(r=>DEPTS.forEach(d=>hc[d]+=r.headcount[d]||0));
+  const months = new Set(rows.map(r=>r.month)).size || 1;
+  const clubCount = new Set(rows.map(r=>r.club)).size || 1;
+  DEPTS.forEach(d=>hc[d]=Math.round(hc[d]/months/clubCount));
+  const totalHC = Object.values(hc).reduce((a,b)=>a+b,0);
+
+  document.getElementById('peopleCards').innerHTML = [
+    ['Headcount', totalHC, 'Estimated active staff'],
+    ['Revenue / Employee', fmtMoney(c.revenue/Math.max(totalHC,1)), 'Productivity'],
+    ['Payroll / Employee', fmtMoney(c.payroll/Math.max(totalHC,1)), 'Cost efficiency'],
+    ['PT Revenue / PT', fmtMoney(c.revenue*.28/Math.max(hc.PT,1)), 'PT productivity']
+  ].map(x=>`<div class="deep-card"><b>${x[0]}</b><div class="big">${x[1]}</div><div class="small">${x[2]}</div></div>`).join('');
+
+  makeChart('headcountChart', {type:'doughnut', data:{labels:DEPTS, datasets:[{data:DEPTS.map(d=>hc[d])}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+  makeChart('revEmployeeChart', {type:'bar', data:{labels:DEPTS, datasets:[{label:'Revenue / Employee proxy', data:DEPTS.map((d,i)=>Math.round((c.revenue*[.32,.28,.08,.12,.12,.08][i])/Math.max(hc[d],1))), borderWidth:1}]}, options:moneyAxisOpts()});
+
+  document.getElementById('peopleTable').innerHTML = '<tr><th>Department</th><th class="num">Headcount</th><th class="num">Payroll Allocation</th><th class="num">Rev / Staff</th><th>Status</th></tr>' + DEPTS.map((d,i)=>{ const rev=c.revenue*[.32,.28,.08,.12,.12,.08][i], pay=c.payroll*[.28,.34,.1,.12,.1,.06][i]; return `<tr><td><b>${d}</b></td><td class="num">${hc[d]}</td><td class="num">${fmtMoney(pay)}</td><td class="num">${fmtMoney(rev/Math.max(hc[d],1))}</td><td>${rev/pay>3?'Productive':'Watch'}</td></tr>`; }).join('');
+}
+
+function renderRanking(rows,c){
+  const agg = getClubAgg(rows);
+  makeChart('rankingChart', {type:'bar', data:{labels:agg.map(x=>x.club), datasets:[{label:'Revenue', data:agg.map(x=>x.revenue), borderWidth:1},{label:'EBITDA', data:agg.map(x=>x.ebitda), borderWidth:1}]}, options:moneyAxisOpts()});
+  document.getElementById('riskTable').innerHTML = '<tr><th>Club</th><th>Region</th><th class="num">Margin</th><th class="num">Payroll %</th><th class="num">Rent %</th><th>Risk</th></tr>' + agg.slice().sort((a,b)=>a.margin-b.margin).map(x=>`<tr><td><b>${x.club}</b></td><td>${x.region}</td><td class="num ${x.margin<.04?'bad':'good'}">${pct(x.margin)}</td><td class="num">${pct(x.payroll/x.revenue)}</td><td class="num">${pct(x.rent/x.revenue)}</td><td>${x.margin<.04?'High':'Normal'}</td></tr>`).join('');
+  renderPLTable(rows);
+}
+
+function renderPLTable(rows){
+  let clubs = allowedClubList();
+  const region = document.getElementById('regionFilter').value;
+  const club = document.getElementById('clubFilter').value;
+  if(region !== 'ALL') clubs = clubs.filter(c => (CLUB_REGION[c] || 'Blank') === region);
+  if(club !== 'ALL') clubs = clubs.filter(c => c === club);
+  let html = '<tr><th>Club</th><th>Region</th><th class="num">Revenue</th><th class="num">Payroll</th><th class="num">Rent</th><th class="num">OPEX</th><th class="num">EBITDA</th><th class="num">Margin</th></tr>';
+  clubs.forEach(club => { const c=calc(rows.filter(r=>r.club===club)); if(!c.revenue) return; html += `<tr><td><b>${club}</b></td><td>${CLUB_REGION[club] || 'Blank'}</td><td class="num">${fmtMoney(c.revenue)}</td><td class="num">${fmtMoney(c.payroll)}</td><td class="num">${fmtMoney(c.rent)}</td><td class="num">${fmtMoney(c.expense)}</td><td class="num ${c.ebitda>=0?'good':'bad'}"><b>${fmtMoney(c.ebitda)}</b></td><td class="num">${pct(c.ebitda/c.revenue)}</td></tr>`; });
+  document.getElementById('plTable').innerHTML = html;
+}
+
+function driver(x){ return `<div class="driver"><div><b>${x[0]}</b><span>${x[1]}</span></div><div class="amount">${x[2]}</div></div>`; }
+function renderSignals(c, clubAgg){
+  const top = clubAgg[0], bottom = clubAgg[clubAgg.length-1];
+  const arr = [
+    ['EBITDA margin', `Current margin is ${pct(c.ebitda/c.revenue)}.`, c.ebitda>=0?'Positive':'Negative', c.ebitda>=0?'good':'bad'],
+    ['Payroll control', `Payroll ratio is ${pct(c.payroll/c.revenue)}.`, c.payroll/c.revenue<=.28?'OK':'High', c.payroll/c.revenue<=.28?'good':'warn'],
+    ['Rent pressure', `Rent ratio is ${pct(c.rent/c.revenue)}.`, c.rent/c.revenue<=.20?'OK':'Watch', c.rent/c.revenue<=.20?'good':'warn'],
+    ['Best / weakest club', top&&bottom?`${top.club} leads. ${bottom.club} is weakest.`:'Not enough data.', top?fmtMoney(top.ebitda):'-','good']
+  ];
+  document.getElementById('signals').innerHTML = arr.map(s=>`<div class="driver"><div><b>${s[0]}</b><span>${s[1]}</span></div><div class="amount ${s[3]}">${s[2]}</div></div>`).join('');
+}
+function renderActions(rows,c){
+  const agg = getClubAgg(rows);
+  const bottom = agg[agg.length-1];
+  document.getElementById('profitDrivers').innerHTML = [
+    ['PT revenue growth','Push PT conversion from new members','High'],
+    ['Renewal base','Protect renewal and upgrade pipeline','Medium'],
+    ['Referral source','Scale lower CAC source','High']
+  ].map(driver).join('');
+  document.getElementById('costLeakages').innerHTML = [
+    ['Payroll pressure',`Payroll at ${pct(c.payroll/c.revenue)} of revenue`,'Watch'],
+    ['Rent pressure',`Rent at ${pct(c.rent/c.revenue)} of revenue`,'Fixed'],
+    ['Other OPEX','Review monthly OPEX approvals','Fix']
+  ].map(driver).join('');
+  document.getElementById('gmActions').innerHTML = [
+    ['Revenue action','Daily traffic and close-rate review','7 days'],
+    ['Cost action','Freeze non-essential OPEX if EBITDA risk','Now'],
+    ['Club action',bottom?`Recovery plan for ${bottom.club}`:'No weak club found','This week']
+  ].map(driver).join('');
+  document.getElementById('dataNotesText').innerHTML = '<b>Prototype update:</b> Club list and login users are generated from the uploaded sample club list. Data remains demo only. Some clubs are seeded as profitable and some as loss-making to test management views.<br><br><b>Next data mapping:</b> Use CSV columns Month, Club, Region, Type, Categories, Day, Value to create real P&L categories and date filters.';
+}
+
+function updateAccessText(){
+  if(!currentUser) return;
+  document.getElementById('accessText').textContent = currentUser.role === 'BOD' ? t('accessAll') : `${t('accessClub')} ${currentUser.clubs.join(', ')}.`;
+}
+function populateDemoChips(){
+  const box = document.getElementById('demoLoginChips');
+  box.innerHTML = '<button type="button" class="demo-chip" onclick="quickLogin(\'bod\')">bod</button>' + CLUBS.map(c=>`<button type="button" class="demo-chip" onclick="quickLogin('${loginKey(c)}')">${c}</button>`).join('');
+}
+function quickLogin(u){
+  document.getElementById('loginUser').value = u;
+  document.getElementById('loginPass').value = '123456';
+}
+
+function handleLogin(e){
+  e.preventDefault();
+  const raw = document.getElementById('loginUser').value.trim();
+  const u = loginKey(raw);
+  const p = document.getElementById('loginPass').value.trim();
+  if(!USERS[u] || USERS[u].password !== p){
+    document.getElementById('loginError').style.display = 'block';
+    return false;
   }
-
-  lastTap = now;
-});
-
-showSlide(0);
+  currentUser = USERS[u];
+  localStorage.setItem('cali_pl_user', u);
+  document.body.classList.add('authed');
+  document.getElementById('userChip').textContent = `${currentUser.name} • ${currentUser.role}`;
+  refreshRegionFilter(false);
+  refreshClubFilter(false);
+  updateAccessText();
+  setPreset('ytd');
+  applyLang();
+  return false;
+}
+function logout(){
+  localStorage.removeItem('cali_pl_user');
+  currentUser = null;
+  document.body.classList.remove('authed');
+}
+(function init(){
+  populateDemoChips();
+  applyLang();
+  const u = localStorage.getItem('cali_pl_user');
+  if(u && USERS[u]){
+    currentUser = USERS[u];
+    document.body.classList.add('authed');
+    setTimeout(()=>{
+      document.getElementById('userChip').textContent = `${currentUser.name} • ${currentUser.role}`;
+      refreshRegionFilter(false);
+      refreshClubFilter(false);
+      updateAccessText();
+      setPreset('ytd');
+      applyLang();
+    },0);
+  }
+})();
 </script>
-
 </body>
 </html>
