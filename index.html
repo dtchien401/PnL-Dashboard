@@ -146,7 +146,7 @@
 <div class="wrap">
   <div class="notice">
     <div><b>Access Control:</b> <span id="accessText">-</span></div>
-    <span data-i18n="mockNote">Demo data uses exact club list from uploaded sample. Some clubs are profitable, some are loss-making.</span>
+    <span data-i18n="mockNote">Demo data uses active clubs from uploaded sample. Closed/non-operational clubs are excluded. Around 60% active clubs are EBITDA-negative. FX display: USD. MTD cut-off = Today - 1. Date formatting is timezone-safe.</span>
   </div>
 
   <div class="filters">
@@ -247,13 +247,15 @@
 <script>
 const CLUBS = ["AMU", "AMY", "BDS", "CA360", "CPT", "CTC", "CVC", "DNG", "FDC", "Fin Serve", "Fin ser", "GDC", "GMC", "GVC", "HDC", "HDY", "HVP", "JCQ", "JVJ", "LMC", "LTC", "MAC", "MPC", "NTC", "PBH", "PCH", "PCO", "PPC", "RCC", "SCC", "SCT", "TCM", "TDC", "TDU", "TDY", "TTC", "VMC", "VSC", "VTC", "VVO", "WPC"];
 const CLUB_REGION = {"AMU": "South", "AMY": "South", "BDS": "South", "CA360": "CA360", "CPT": "North", "CTC": "South", "CVC": "", "DNG": "Central", "FDC": "South", "Fin Serve": "Fin Serve", "Fin ser": "Fin ser", "GDC": "South", "GMC": "South", "GVC": "South", "HDC": "HDC VTC", "HDY": "North", "HVP": "South", "JCQ": "South", "JVJ": "South", "LMC": "South", "LTC": "South", "MAC": "North", "MPC": "North", "NTC": "Central", "PBH": "South", "PCH": "North", "PCO": "South", "PPC": "South", "RCC": "North", "SCC": "South", "SCT": "North", "TCM": "North", "TDC": "South", "TDU": "South", "TDY": "South", "TTC": "Dean", "VMC": "South", "VSC": "North", "VTC": "HDC VTC", "VVO": "South", "WPC": "North"};
+const CLOSED_CLUBS = new Set(['CA360','TDY','CVC','Fin Serve','Fin Ser','Fin ser','JCQ','JVJ','LTC','SCC','VMC']);
+const ACTIVE_CLUBS = CLUBS.filter(c => !CLOSED_CLUBS.has(c));
 
 const I18N = {
   en: {
     loginTitle:'P&L Dashboard', loginSub:'Role-based demo: BOD can view all clubs, each Club user can view only assigned club.',
     username:'Username', password:'Password', login:'Login', loginError:'Incorrect username or password.',
     kicker:'Commercial Finance Intelligence', headerSub:'Role-based P&L view • Club profitability • Revenue, cost, EBITDA and margin control',
-    logout:'Logout', mockNote:'Demo data uses exact club list from uploaded sample. Some clubs are profitable, some are loss-making.',
+    logout:'Logout', mockNote:'Demo data uses active clubs from uploaded sample. Closed/non-operational clubs are excluded. Around 60% active clubs are EBITDA-negative. FX display: USD. MTD cut-off = Today - 1. Date formatting is timezone-safe.',
     fromDate:'From Date', toDate:'To Date', region:'Region', club:'Club', view:'View', apply:'Apply', reset:'Reset',
     thisMonth:'This Month', lastMonth:'Last Month', last7:'Last 7 Days', last30:'Last 30 Days', ytd:'YTD', allTime:'All Time',
     tabOverview:'Overview', tabRevenue:'Revenue Intelligence', tabCost:'Cost Intelligence', tabPeople:'People Productivity', tabRanking:'Club Ranking', tabActions:'Action Plan',
@@ -270,7 +272,7 @@ const I18N = {
     loginTitle:'Dashboard P&L', loginSub:'Demo phân quyền: BOD xem toàn bộ hệ thống, Club user chỉ xem club được phân quyền.',
     username:'Tên đăng nhập', password:'Mật khẩu', login:'Đăng nhập', loginError:'Sai username hoặc password.',
     kicker:'Commercial Finance Intelligence', headerSub:'P&L theo phân quyền • Lợi nhuận club • Doanh thu, chi phí, EBITDA và biên lợi nhuận',
-    logout:'Đăng xuất', mockNote:'Dữ liệu demo dùng đúng danh sách club từ sample. Có club lời và có club lỗ.',
+    logout:'Đăng xuất', mockNote:'Dữ liệu demo dùng danh sách club đang hoạt động từ sample. Đã loại club đóng/không vận hành. Khoảng 60% club EBITDA âm. Đơn vị USD. MTD chốt Today - 1.',
     fromDate:'Từ ngày', toDate:'Đến ngày', region:'Vùng', club:'Câu lạc bộ', view:'Cách xem', apply:'Áp dụng', reset:'Reset',
     thisMonth:'Tháng này', lastMonth:'Tháng trước', last7:'7 ngày gần nhất', last30:'30 ngày gần nhất', ytd:'YTD', allTime:'Toàn thời gian',
     tabOverview:'Tổng quan', tabRevenue:'Phân tích doanh thu', tabCost:'Phân tích chi phí', tabPeople:'Hiệu suất nhân sự', tabRanking:'Xếp hạng club', tabActions:'Kế hoạch hành động',
@@ -286,12 +288,13 @@ const I18N = {
 };
 
 let LANG = localStorage.getItem('cali_pl_lang') || 'en';
+const FX_RATE = 26000;
 let currentUser = null;
 let charts = {};
 
 const USERS = {};
 USERS['bod'] = { password:'123456', role:'BOD', name:'BOD / Executive', clubs:['ALL'] };
-CLUBS.forEach(c => {
+ACTIVE_CLUBS.forEach(c => {
   const key = loginKey(c);
   USERS[key] = { password:'123456', role:'CLUB', name:c + ' Club User', clubs:[c] };
 });
@@ -299,8 +302,10 @@ CLUBS.forEach(c => {
 const PRODUCTS = ['Membership','PT','Retail','Supplement','ProPhysio','Hypoxi'];
 const SOURCES = ['Walk-in','Referral','Digital','Database','Corporate','Event'];
 const DEPTS = ['Sales','PT','GX/Yoga','MS','Ops','Admin'];
-const LOSS_CLUBS = new Set(['VMC','LTC','TDY','JCQ','CVC','SCC','PPC','CA360','Fin Serve','Fin ser','JVJ','VTC']);
 const HIGH_PROFIT_CLUBS = new Set(['PCO','VVO','TTC','GVC','MAC','RCC','CPT','AMU']);
+const LOSS_CLUB_COUNT = Math.round(ACTIVE_CLUBS.length * 0.60);
+const LOSS_CLUBS = new Set(ACTIVE_CLUBS.filter((c,i) => i >= ACTIVE_CLUBS.length - LOSS_CLUB_COUNT));
+HIGH_PROFIT_CLUBS.forEach(c => LOSS_CLUBS.delete(c));
 const DATA = [];
 
 function loginKey(v){ return String(v).toLowerCase().replace(/[^a-z0-9]/g,''); }
@@ -308,7 +313,7 @@ function t(k){ return I18N[LANG][k] || I18N.en[k] || k; }
 
 function seedData(){
   const start = new Date('2026-01-01');
-  CLUBS.forEach((club, idx) => {
+  ACTIVE_CLUBS.forEach((club, idx) => {
     for(let m=0; m<6; m++){
       const date = new Date(start.getFullYear(), start.getMonth()+m, 1);
       const region = CLUB_REGION[club] || 'Blank';
@@ -331,7 +336,7 @@ function seedData(){
         payrollR -= 0.035; rentR -= 0.018; otherR -= 0.02;
       }
       if(LOSS_CLUBS.has(club)){
-        payrollR += 0.13; rentR += 0.09; otherR += 0.08; marketingR += 0.025;
+        payrollR += 0.20; rentR += 0.13; otherR += 0.13; marketingR += 0.04;
       }
 
       const cogs = Math.round(revenue*cogsR);
@@ -382,8 +387,10 @@ function toggleLang(){
 
 function fmtMoney(v){
   const sign = v < 0 ? '-' : '';
-  v = Math.abs(v || 0);
-  return sign + (v >= 1000 ? (v/1000).toFixed(1)+'B' : v.toFixed(0)+'M');
+  const usd = Math.abs(v || 0) * 1000000 / FX_RATE; // demo values are VND million
+  if(usd >= 1000000) return sign + '$' + (usd/1000000).toFixed(2) + 'M';
+  if(usd >= 1000) return sign + '$' + (usd/1000).toFixed(0) + 'K';
+  return sign + '$' + usd.toFixed(0);
 }
 function pct(v){ return isFinite(v) ? (v*100).toFixed(1)+'%' : '-'; }
 function sum(rows,key){ return rows.reduce((a,r)=>a+(r[key]||0),0); }
@@ -400,7 +407,7 @@ function inRange(r){
 }
 function allowedClubList(){
   if(!currentUser) return [];
-  if(currentUser.role === 'BOD') return CLUBS.slice();
+  if(currentUser.role === 'BOD') return ACTIVE_CLUBS.slice();
   return currentUser.clubs.slice();
 }
 function filteredRows(){
@@ -434,18 +441,44 @@ function refreshClubFilter(keep=true){
   el.disabled = currentUser.role !== 'BOD';
 }
 
-function setPreset(type){
-  const today = new Date('2026-06-02');
-  let from,to; const iso=d=>d.toISOString().slice(0,10);
-  if(type==='thisMonth'){from=new Date(today.getFullYear(),today.getMonth(),1);to=today;}
-  if(type==='lastMonth'){from=new Date(today.getFullYear(),today.getMonth()-1,1);to=new Date(today.getFullYear(),today.getMonth(),0);}
-  if(type==='last7'){from=new Date(today);from.setDate(today.getDate()-6);to=today;}
-  if(type==='last30'){from=new Date(today);from.setDate(today.getDate()-29);to=today;}
-  if(type==='ytd'){from=new Date(today.getFullYear(),0,1);to=today;}
-  if(type==='all'){from=new Date('2026-01-01');to=today;}
+function setPreset(type, silent){
+  const today = new Date('2026-06-02T12:00:00'); // demo current date
+  const reportDate = new Date(today);
+  reportDate.setDate(today.getDate() - 1); // management cut-off: today - 1
+
+  let from, to;
+  const iso = d => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  };
+
+  if(type === 'thisMonth'){
+    from = new Date(today.getFullYear(), today.getMonth(), 1);
+    to = reportDate;
+  }else if(type === 'lastMonth'){
+    from = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    to = new Date(today.getFullYear(), today.getMonth(), 0);
+  }else if(type === 'last7'){
+    to = reportDate;
+    from = new Date(reportDate);
+    from.setDate(reportDate.getDate() - 6);
+  }else if(type === 'last30'){
+    to = reportDate;
+    from = new Date(reportDate);
+    from.setDate(reportDate.getDate() - 29);
+  }else if(type === 'all'){
+    from = new Date('2026-01-01T12:00:00');
+    to = reportDate;
+  }else{
+    from = new Date(today.getFullYear(), 0, 1);
+    to = reportDate;
+  }
+
   document.getElementById('fromDate').value = iso(from);
   document.getElementById('toDate').value = iso(to);
-  render();
+  if(!silent) render();
 }
 function resetFilters(){
   refreshRegionFilter(false); refreshClubFilter(false);
@@ -480,7 +513,10 @@ function splitValues(total, keys, weights){
 
 function render(){
   if(!currentUser) return;
-  const rows = filteredRows();
+  let rows = filteredRows();
+  if(!rows.length){
+    rows = DATA.filter(r => allowedClubList().includes(r.club));
+  }
   const c = calc(rows);
   renderOverview(rows,c);
   renderRevenue(rows,c);
@@ -627,7 +663,7 @@ function renderActions(rows,c){
     ['Cost action','Freeze non-essential OPEX if EBITDA risk','Now'],
     ['Club action',bottom?`Recovery plan for ${bottom.club}`:'No weak club found','This week']
   ].map(driver).join('');
-  document.getElementById('dataNotesText').innerHTML = '<b>Prototype update:</b> Club list and login users are generated from the uploaded sample club list. Data remains demo only. Some clubs are seeded as profitable and some as loss-making to test management views.<br><br><b>Next data mapping:</b> Use CSV columns Month, Club, Region, Type, Categories, Day, Value to create real P&L categories and date filters.';
+  document.getElementById('dataNotesText').innerHTML = '<b>Prototype update:</b> Club list and login users are generated from active clubs only, excluding CA360, TDY, CVC, Fin Serve, Fin Ser, Fin ser, JCQ, JVJ, LTC, SCC and VMC. Data remains demo only. Around 60% of active clubs are seeded as EBITDA-negative.<br><br><b>Next data mapping:</b> Use CSV columns Month, Club, Region, Type, Categories, Day, Value to create real P&L categories and date filters.';
 }
 
 function updateAccessText(){
@@ -636,7 +672,7 @@ function updateAccessText(){
 }
 function populateDemoChips(){
   const box = document.getElementById('demoLoginChips');
-  box.innerHTML = '<button type="button" class="demo-chip" onclick="quickLogin(\'bod\')">bod</button>' + CLUBS.map(c=>`<button type="button" class="demo-chip" onclick="quickLogin('${loginKey(c)}')">${c}</button>`).join('');
+  box.innerHTML = '<button type="button" class="demo-chip" onclick="quickLogin(\'bod\')">bod</button>' + ACTIVE_CLUBS.map(c=>`<button type="button" class="demo-chip" onclick="quickLogin('${loginKey(c)}')">${c}</button>`).join('');
 }
 function quickLogin(u){
   document.getElementById('loginUser').value = u;
@@ -659,8 +695,9 @@ function handleLogin(e){
   refreshRegionFilter(false);
   refreshClubFilter(false);
   updateAccessText();
-  setPreset('ytd');
+  setPreset('ytd', true);
   applyLang();
+  render();
   return false;
 }
 function logout(){
@@ -680,8 +717,9 @@ function logout(){
       refreshRegionFilter(false);
       refreshClubFilter(false);
       updateAccessText();
-      setPreset('ytd');
+      setPreset('ytd', true);
       applyLang();
+      render();
     },0);
   }
 })();
